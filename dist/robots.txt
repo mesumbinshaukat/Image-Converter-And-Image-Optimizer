@@ -1,0 +1,42 @@
+# Imgify - Robots.txt
+# https://imgify.com/robots.txt
+
+User-agent: *
+Allow: /
+Disallow: /admin-access
+Disallow: /admin-dashboard
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://imgify.com/sitemap.xml
+
+# Crawl-delay for all bots
+Crawl-delay: 1
+
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /admin-access
+Disallow: /admin-dashboard
+Disallow: /api/
+
+# Bing
+User-agent: Bingbot
+Allow: /
+Disallow: /admin-access
+Disallow: /admin-dashboard
+Disallow: /api/
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+Disallow: /admin-access
+Disallow: /admin-dashboard
+Disallow: /api/
+
+# Baidu
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin-access
+Disallow: /admin-dashboard
+Disallow: /api/

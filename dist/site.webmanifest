@@ -1,0 +1,36 @@
+{
+    "name": "Imgify - Image Optimizer & Converter",
+    "short_name": "Imgify",
+    "description": "Free online image optimizer and converter. Compress and convert images without quality loss.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#8B5CF6",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/Imgify Icon Transparent Icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/Imgify Icon Transparent Icon.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "utilities",
+        "productivity",
+        "photo"
+    ],
+    "screenshots": [
+        {
+            "src": "/screenshot.jpg",
+            "sizes": "1280x720",
+            "type": "image/jpeg"
+        }
+    ]
+}
