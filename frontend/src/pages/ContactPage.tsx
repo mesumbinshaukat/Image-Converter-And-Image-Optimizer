@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import { Container, Typography, Box, Button, Paper, TextField, Alert } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
 import api from '../services/api'
 
 function ContactPage() {
-    const navigate = useNavigate()
     const [formData, setFormData] = useState({
         name: '',
         email: '',

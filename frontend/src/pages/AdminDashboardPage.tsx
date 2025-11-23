@@ -18,7 +18,6 @@ import {
     Button,
     Tab,
     Tabs,
-    Alert,
     CircularProgress,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -223,7 +222,7 @@ export default function AdminDashboardPage() {
 
                 {/* Tabs */}
                 <Paper sx={{ mb: 3 }}>
-                    <Tabs value={tabValue} onChange={(e, newValue) => setTabValue(newValue)} aria-label="admin tabs">
+                    <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)} aria-label="admin tabs">
                         <Tab label="Users" />
                         <Tab label="Activity Logs" />
                         <Tab label="Contact Submissions" />

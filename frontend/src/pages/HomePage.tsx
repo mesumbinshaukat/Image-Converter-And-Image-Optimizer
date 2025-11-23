@@ -28,7 +28,7 @@ function HomePage() {
                     <Typography variant="h1" sx={{ fontSize: { xs: '2.5rem', md: '3.5rem' } }} gutterBottom fontWeight="bold">
                         Free Online Image Optimizer & Converter
                     </Typography>
-                    <Typography variant="h2" sx={{ fontSize: { xs: '1.25rem', md: '1.75rem' } }} color="text.secondary" sx={{ mb: 2, fontWeight: 400 }}>
+                    <Typography variant="h2" sx={{ fontSize: { xs: '1.25rem', md: '1.75rem' }, mb: 2, fontWeight: 400 }} color="text.secondary">
                         Compress Images Up to 80% Without Quality Loss
                     </Typography>
                     <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>

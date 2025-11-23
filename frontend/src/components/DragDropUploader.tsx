@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-import { Box, Typography, Paper, LinearProgress } from '@mui/material';
+import { Box, Typography, Paper } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ImageIcon from '@mui/icons-material/Image';
 import CloseIcon from '@mui/icons-material/Close';
