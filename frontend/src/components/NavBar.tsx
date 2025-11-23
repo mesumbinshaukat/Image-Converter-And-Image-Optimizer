@@ -3,7 +3,6 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -46,9 +45,13 @@ export default function NavBar() {
 
     const drawer = (
         <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
-            <Typography variant="h6" sx={{ my: 2 }}>
-                Imgify
-            </Typography>
+            <Box sx={{ my: 2, display: 'flex', justifyContent: 'center' }}>
+                <img
+                    src="/Imgify Logo Transparent Bg.png"
+                    alt="Imgify Logo"
+                    style={{ height: '50px', objectFit: 'contain' }}
+                />
+            </Box>
             <List>
                 {navItems.map((item) => (
                     <ListItem key={item.label} disablePadding>
@@ -93,14 +96,25 @@ export default function NavBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography
-                        variant="h6"
+                    <Box
                         component={RouterLink}
                         to="/"
-                        sx={{ flexGrow: 1, color: 'inherit', textDecoration: 'none' }}
+                        sx={{
+                            flexGrow: 1,
+                            display: 'flex',
+                            alignItems: 'center',
+                            textDecoration: 'none',
+                        }}
                     >
-                        Imgify
-                    </Typography>
+                        <img
+                            src="/Imgify Logo Transparemt Bg White Text.png"
+                            alt="Imgify Logo"
+                            style={{
+                                height: '80px',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </Box>
                     <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
                         {navItems.map((item) => (
                             <Button
@@ -156,4 +170,3 @@ export default function NavBar() {
         </Box>
     );
 }
-

@@ -1,21 +1,17 @@
 import { useState } from 'react'
 import { Container, Typography, Box, Button, Paper, Alert, LinearProgress } from '@mui/material'
-
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
 import api from '../services/api'
+import DragDropUploader from '../components/DragDropUploader'
 
 function ImageOptimizerPage() {
-
     const [files, setFiles] = useState<File[]>([])
     const [loading, setLoading] = useState(false)
     const [results, setResults] = useState<any[]>([])
     const [error, setError] = useState('')
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFiles(Array.from(e.target.files))
-            setError('')
-        }
+    const handleFilesSelected = (selectedFiles: File[]) => {
+        setFiles(selectedFiles)
+        setError('')
     }
 
     const handleOptimize = async () => {
@@ -48,8 +44,6 @@ function ImageOptimizerPage() {
     return (
         <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
             <Container maxWidth="md">
-
-
                 <Typography variant="h4" gutterBottom fontWeight="bold">
                     Image Optimizer
                 </Typography>
@@ -58,31 +52,11 @@ function ImageOptimizerPage() {
                 </Typography>
 
                 <Paper sx={{ p: 4 }}>
-                    <Box sx={{ textAlign: 'center', mb: 3 }}>
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            style={{ display: 'none' }}
-                            id="file-input"
-                        />
-                        <label htmlFor="file-input">
-                            <Button
-                                variant="outlined"
-                                component="span"
-                                startIcon={<CloudUploadIcon />}
-                                size="large"
-                            >
-                                Select Images
-                            </Button>
-                        </label>
-                        {files.length > 0 && (
-                            <Typography sx={{ mt: 2 }}>
-                                {files.length} file(s) selected
-                            </Typography>
-                        )}
-                    </Box>
+                    <DragDropUploader
+                        onFilesSelected={handleFilesSelected}
+                        maxFiles={50}
+                        disabled={loading}
+                    />
 
                     {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 

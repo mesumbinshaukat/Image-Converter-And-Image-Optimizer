@@ -15,26 +15,42 @@ function HomePage() {
             {/* Hero Section */}
             <Container sx={{ py: 8 }}>
                 <Box sx={{ textAlign: 'center', mb: 8 }}>
-                    <Typography variant="h2" gutterBottom fontWeight="bold">
-                        Image Optimizer & Converter
+                    <Box sx={{ mb: 4, display: 'flex', justifyContent: 'center' }}>
+                        <img
+                            src="/Imgify Logo Transparent Bg.png"
+                            alt="Imgify - Free Online Image Optimizer and Converter"
+                            style={{
+                                height: '120px',
+                                objectFit: 'contain',
+                            }}
+                        />
+                    </Box>
+                    <Typography variant="h1" sx={{ fontSize: { xs: '2.5rem', md: '3.5rem' } }} gutterBottom fontWeight="bold">
+                        Free Online Image Optimizer & Converter
                     </Typography>
-                    <Typography variant="h5" color="text.secondary" sx={{ mb: 4 }}>
-                        Compress and convert images without losing quality
+                    <Typography variant="h2" sx={{ fontSize: { xs: '1.25rem', md: '1.75rem' } }} color="text.secondary" sx={{ mb: 2, fontWeight: 400 }}>
+                        Compress Images Up to 80% Without Quality Loss
                     </Typography>
-                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center' }}>
+                    <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 800, mx: 'auto' }}>
+                        Professional image optimization and format conversion tool. Reduce file size, convert JPG to PNG, PNG to WebP, and more.
+                        Fast, secure, and completely free. No registration required.
+                    </Typography>
+                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
                         <Button
                             variant="contained"
                             size="large"
                             onClick={() => navigate('/optimize')}
                             startIcon={<CompressIcon />}
+                            aria-label="Start optimizing images"
                         >
-                            Optimize Images
+                            Optimize Images Now
                         </Button>
                         <Button
                             variant="outlined"
                             size="large"
                             onClick={() => navigate('/convert')}
                             startIcon={<TransformIcon />}
+                            aria-label="Convert image format"
                         >
                             Convert Format
                         </Button>

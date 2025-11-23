@@ -8,6 +8,7 @@ import ContactPage from './pages/ContactPage.tsx';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage.tsx';
 import TermsOfServicePage from './pages/TermsOfServicePage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
+import NotFoundPage from './pages/NotFoundPage.tsx';
 
 function Router() {
     return (
@@ -22,6 +23,7 @@ function Router() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )
 }

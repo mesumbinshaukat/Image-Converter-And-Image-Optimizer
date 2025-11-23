@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ImageOptimizeController;
 use App\Http\Controllers\Api\ImageConvertController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ImageDownloadController;
+use App\Http\Controllers\Api\ContactController;
 
 /*
 |--------------------------------------------------------------------------
