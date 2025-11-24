@@ -1,4 +1,6 @@
 node_modules
-vite.config.prod.ts
-vite.config.ts
+# vite.config.prod.ts
+dist/
+.env
+# vite.config.ts
 dist/
