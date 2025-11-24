@@ -25,9 +25,15 @@ function LoginPage() {
             const response = await api.post('/login', { email, password })
             const userData = response.data.user;
 
-            console.log('Login attempt:', { isAdminLogin, role: userData.role });
+            console.log('Login attempt:', { isAdminLogin, role: userData?.role });
 
-            if (isAdminLogin && userData.role !== 'admin') {
+            if (!userData) {
+                setError('Login failed: missing user information');
+                setLoading(false);
+                return;
+            }
+
+            if (isAdminLogin && userData?.role !== 'admin') {
                 setError('Access Denied: Admin rights required');
                 setLoading(false);
                 return;
