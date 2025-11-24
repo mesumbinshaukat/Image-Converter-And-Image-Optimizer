@@ -61,6 +61,11 @@ class AuthController extends Controller
             ]);
         }
 
+        \Log::info('Login attempt for user: ' . $user->email, [
+            'role' => $user->role,
+            'role_type' => gettype($user->role),
+        ]);
+
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
@@ -68,7 +73,7 @@ class AuthController extends Controller
                 'id' => $user->id,
                 'username' => $user->username,
                 'email' => $user->email,
-                'role' => $user->role,
+                'role' => $user->role ?? 'user',
             ],
             'token' => $token,
         ]);
