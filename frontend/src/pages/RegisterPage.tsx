@@ -9,10 +9,13 @@ import {
     Paper
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCredentials } from '../store/authSlice';
 import api from '../services/api';
 
 export default function RegisterPage() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '' });
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
@@ -34,11 +37,20 @@ export default function RegisterPage() {
         }
 
         try {
-            await api.post('/register', form);
+            const response = await api.post('/register', form);
+            // Auto-login after registration
+            dispatch(setCredentials(response.data));
             setSuccess(true);
-            setTimeout(() => navigate('/login'), 1500); // Redirect to login
+            setTimeout(() => navigate('/'), 1500); // Redirect to home
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Registration failed');
+            console.error('Registration error:', err);
+            if (err.response?.data?.errors) {
+                // Handle validation errors
+                const errorMessages = Object.values(err.response.data.errors).flat().join(', ');
+                setError(errorMessages);
+            } else {
+                setError(err.response?.data?.message || 'Registration failed');
+            }
         } finally {
             setLoading(false);
         }
@@ -58,7 +70,7 @@ export default function RegisterPage() {
                     {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
                     {success && (
                         <Alert severity="success" sx={{ mb: 2 }}>
-                            Registration successful! Redirecting to login...
+                            Registration successful! Redirecting to home...
                         </Alert>
                     )}
 

@@ -28,7 +28,7 @@ class ImageOptimizeController extends Controller
     {
         $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.file.max_size'),
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.max_file_size'),
             'quality' => 'nullable|integer|min:1|max:100',
         ]);
 
@@ -46,7 +46,7 @@ class ImageOptimizeController extends Controller
             ], 429);
         }
 
-        $quality = $request->input('quality', config('imgify.optimization.quality'));
+        $quality = $request->input('quality', config('imgify.default_quality'));
         $results = [];
 
         foreach ($request->file('images') as $file) {
@@ -65,7 +65,7 @@ class ImageOptimizeController extends Controller
                     'original_size' => $result['original_size'],
                     'processed_size' => $result['processed_size'],
                     'operation' => 'optimize',
-                    'expires_at' => Carbon::now()->addHours(config('imgify.file.retention_hours')),
+                    'expires_at' => Carbon::now()->addHours(config('imgify.file_retention_hours')),
                 ]);
 
                 $results[] = [

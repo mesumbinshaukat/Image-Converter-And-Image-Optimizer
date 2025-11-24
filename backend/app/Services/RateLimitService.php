@@ -90,14 +90,14 @@ class RateLimitService
     {
         if ($user) {
             return [
-                'batch_limit' => config('imgify.user.batch_limit'),
-                'daily_limit' => config('imgify.user.daily_limit'),
+                'batch_limit' => config('imgify.user_batch_limit'),
+                'daily_limit' => config('imgify.user_daily_limit'),
             ];
         }
 
         return [
-            'batch_limit' => config('imgify.guest.batch_limit'),
-            'daily_limit' => config('imgify.guest.daily_limit'),
+            'batch_limit' => config('imgify.guest_batch_limit'),
+            'daily_limit' => config('imgify.guest_daily_limit'),
         ];
     }
 

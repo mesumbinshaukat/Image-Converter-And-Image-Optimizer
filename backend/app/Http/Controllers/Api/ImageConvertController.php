@@ -27,7 +27,7 @@ class ImageConvertController extends Controller
     {
         $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.file.max_size'),
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.max_file_size'),
             'format' => 'required|in:jpg,jpeg,png,webp,gif,bmp',
             'quality' => 'nullable|integer|min:1|max:100',
         ]);
@@ -47,7 +47,7 @@ class ImageConvertController extends Controller
         }
 
         $targetFormat = $request->input('format');
-        $quality = $request->input('quality', config('imgify.conversion.default_quality'));
+        $quality = $request->input('quality', config('imgify.default_quality'));
         $results = [];
 
         foreach ($request->file('images') as $file) {
@@ -66,7 +66,7 @@ class ImageConvertController extends Controller
                     'original_size' => $result['original_size'],
                     'processed_size' => $result['processed_size'],
                     'operation' => 'convert',
-                    'expires_at' => Carbon::now()->addHours(config('imgify.file.retention_hours')),
+                    'expires_at' => Carbon::now()->addHours(config('imgify.file_retention_hours')),
                 ]);
 
                 $results[] = [

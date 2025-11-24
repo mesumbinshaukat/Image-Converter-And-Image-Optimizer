@@ -20,9 +20,13 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
+        console.error('API Error:', error.response?.data || error.message);
         if (error.response?.status === 401) {
             localStorage.removeItem('token')
-            window.location.href = '/admin-access'
+            // Only redirect if not already on login page to avoid loops
+            if (!window.location.pathname.includes('/login') && !window.location.pathname.includes('/admin-access')) {
+                // window.location.href = '/login' // Optional: force redirect
+            }
         }
         return Promise.reject(error)
     }

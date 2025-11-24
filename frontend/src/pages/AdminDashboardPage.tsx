@@ -83,10 +83,11 @@ export default function AdminDashboardPage() {
                 api.get('/admin/contacts'),
             ]);
 
-            setUsers(usersRes.data.users || []);
+            // Backend returns paginated data in .data property (Laravel default)
+            setUsers(usersRes.data.data || []);
             setAnalytics(analyticsRes.data || {});
-            setLogs(logsRes.data.logs || []);
-            setContacts(contactsRes.data.contacts || []);
+            setLogs(logsRes.data.data || []);
+            setContacts(contactsRes.data.data || []);
         } catch (error) {
             console.error('Error loading dashboard data:', error);
         } finally {
@@ -159,7 +160,7 @@ export default function AdminDashboardPage() {
                                             {analytics?.total_users || users.length}
                                         </Typography>
                                     </Box>
-                                    <PeopleIcon sx={{ fontSize: 48, color: 'primary.main', opacity: 0.3 }} />
+                                    <PeopleIcon sx={{ fontSize: 48, color: 'primary.main' }} />
                                 </Box>
                             </CardContent>
                         </Card>
@@ -177,7 +178,7 @@ export default function AdminDashboardPage() {
                                             {analytics?.total_images || 0}
                                         </Typography>
                                     </Box>
-                                    <ImageIcon sx={{ fontSize: 48, color: 'success.main', opacity: 0.3 }} />
+                                    <ImageIcon sx={{ fontSize: 48, color: 'success.main' }} />
                                 </Box>
                             </CardContent>
                         </Card>
@@ -195,7 +196,7 @@ export default function AdminDashboardPage() {
                                             {analytics?.daily_visitors || 0}
                                         </Typography>
                                     </Box>
-                                    <VisibilityIcon sx={{ fontSize: 48, color: 'info.main', opacity: 0.3 }} />
+                                    <VisibilityIcon sx={{ fontSize: 48, color: 'info.main' }} />
                                 </Box>
                             </CardContent>
                         </Card>
@@ -213,7 +214,7 @@ export default function AdminDashboardPage() {
                                             {analytics?.active_today || 0}
                                         </Typography>
                                     </Box>
-                                    <TrendingUpIcon sx={{ fontSize: 48, color: 'warning.main', opacity: 0.3 }} />
+                                    <TrendingUpIcon sx={{ fontSize: 48, color: 'warning.main' }} />
                                 </Box>
                             </CardContent>
                         </Card>

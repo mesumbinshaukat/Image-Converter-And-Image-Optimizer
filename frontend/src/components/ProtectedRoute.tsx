@@ -16,9 +16,14 @@ const ProtectedRoute = ({ children, requireAdmin = false }: ProtectedRouteProps)
         return <Navigate to={requireAdmin ? "/admin-access" : "/login"} state={{ from: location }} replace />;
     }
 
-    if (requireAdmin && user?.role !== 'admin') {
+    if (requireAdmin && user && user.role !== 'admin') {
         // If authenticated but not admin, and admin is required, redirect to home
         return <Navigate to="/" replace />;
+    }
+
+    // If requireAdmin is true but user is null (should be handled by SessionRestorer, but as safety)
+    if (requireAdmin && !user) {
+        return null; // Or loading spinner, but SessionRestorer handles this
     }
 
     return children;

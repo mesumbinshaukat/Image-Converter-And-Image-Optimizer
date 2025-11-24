@@ -108,13 +108,17 @@ function AppContent() {
     )
 }
 
+import SessionRestorer from './components/SessionRestorer';
+
 function App() {
     return (
         <Provider store={store}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter>
-                    <AppContent />
+                    <SessionRestorer>
+                        <AppContent />
+                    </SessionRestorer>
                 </BrowserRouter>
             </ThemeProvider>
         </Provider>

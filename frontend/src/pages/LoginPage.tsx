@@ -25,25 +25,29 @@ function LoginPage() {
             const response = await api.post('/login', { email, password })
             const userData = response.data.user;
 
+            console.log('Login attempt:', { isAdminLogin, role: userData.role });
+
             if (isAdminLogin && userData.role !== 'admin') {
-                // If trying to access admin but not an admin user
                 setError('Access Denied: Admin rights required');
                 setLoading(false);
-                // Optionally logout immediately if the backend set a cookie/token
-                // api.post('/logout'); // If needed, but usually we just don't store the token
                 return;
             }
 
             dispatch(setCredentials(response.data))
 
-            // Redirect based on role
             if (userData.role === 'admin') {
                 navigate('/admin-dashboard')
             } else {
                 navigate('/')
             }
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Login failed')
+            console.error('Login error:', err);
+            if (err.response?.data?.errors) {
+                const errorMessages = Object.values(err.response.data.errors).flat().join(', ');
+                setError(errorMessages);
+            } else {
+                setError(err.response?.data?.message || 'Login failed');
+            }
         } finally {
             setLoading(false)
         }
@@ -91,8 +95,6 @@ function LoginPage() {
                             {loading ? 'Signing in...' : 'Sign In'}
                         </Button>
                     </form>
-
-
                 </Paper>
             </Container>
         </Box>
