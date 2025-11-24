@@ -1,3 +1,4 @@
 node_modules
 vite.config.prod.ts
+vite.config.ts
 dist/
