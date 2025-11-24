@@ -76,20 +76,61 @@ export default function AdminDashboardPage() {
     const loadDashboardData = async () => {
         setLoading(true);
         try {
-            const [usersRes, analyticsRes, logsRes, contactsRes] = await Promise.all([
+            const [usersRes, analyticsRes, logsRes, contactsRes] = await Promise.allSettled([
                 api.get('/admin/users'),
                 api.get('/admin/analytics'),
                 api.get('/admin/logs'),
                 api.get('/admin/contacts'),
             ]);
 
-            // Backend returns paginated data in .data property (Laravel default)
-            setUsers(usersRes.data.data || []);
-            setAnalytics(analyticsRes.data || {});
-            setLogs(logsRes.data.data || []);
-            setContacts(contactsRes.data.data || []);
+            // Handle users response
+            if (usersRes.status === 'fulfilled') {
+                setUsers(usersRes.value.data.data || []);
+            } else {
+                console.error('Error loading users:', usersRes.reason);
+                setUsers([]);
+            }
+
+            // Handle analytics response
+            if (analyticsRes.status === 'fulfilled') {
+                setAnalytics(analyticsRes.value.data.stats || analyticsRes.value.data || {});
+            } else {
+                console.error('Error loading analytics:', analyticsRes.reason);
+                setAnalytics({
+                    total_users: 0,
+                    total_images: 0,
+                    daily_visitors: 0,
+                    active_today: 0,
+                });
+            }
+
+            // Handle logs response
+            if (logsRes.status === 'fulfilled') {
+                setLogs(logsRes.value.data.data || []);
+            } else {
+                console.error('Error loading logs:', logsRes.reason);
+                setLogs([]);
+            }
+
+            // Handle contacts response
+            if (contactsRes.status === 'fulfilled') {
+                setContacts(contactsRes.value.data.data || []);
+            } else {
+                console.error('Error loading contacts:', contactsRes.reason);
+                setContacts([]);
+            }
         } catch (error) {
             console.error('Error loading dashboard data:', error);
+            // Set empty defaults
+            setUsers([]);
+            setAnalytics({
+                total_users: 0,
+                total_images: 0,
+                daily_visitors: 0,
+                active_today: 0,
+            });
+            setLogs([]);
+            setContacts([]);
         } finally {
             setLoading(false);
         }

@@ -22,4 +22,16 @@ class ContactSubmission extends Model
     protected $casts = [
         'is_reviewed' => 'boolean',
     ];
+
+    protected $appends = [
+        'reviewed',
+    ];
+
+    /**
+     * Get the reviewed attribute (alias for is_reviewed)
+     */
+    public function getReviewedAttribute()
+    {
+        return $this->is_reviewed;
+    }
 }
