@@ -29,7 +29,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 
 export default function NavBar() {
     const [mobileOpen, setMobileOpen] = React.useState(false);
-    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
+    const { isAuthenticated, user } = useSelector((state: RootState) => state.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -95,6 +95,14 @@ export default function NavBar() {
                     style={{ height: '60px', objectFit: 'contain' }}
                 />
             </Box>
+
+            {isAuthenticated && user && (
+                <Box sx={{ px: 2, py: 1.5, bgcolor: 'rgba(255,255,255,0.1)', mb: 1 }}>
+                    <Typography variant="body1" sx={{ fontWeight: 600, textAlign: 'center' }}>
+                        Hi, {user.name}!
+                    </Typography>
+                </Box>
+            )}
 
             <Divider sx={{ bgcolor: 'rgba(255,255,255,0.2)' }} />
 
@@ -258,6 +266,19 @@ export default function NavBar() {
                                 {item.label}
                             </Button>
                         ))}
+                        {isAuthenticated && user && (
+                            <Typography
+                                variant="body1"
+                                sx={{
+                                    color: '#fff',
+                                    display: 'inline-block',
+                                    mx: 2,
+                                    fontWeight: 500,
+                                }}
+                            >
+                                Hi, {user.name}!
+                            </Typography>
+                        )}
                         {authItems.map((item) => {
                             if ('to' in item) {
                                 return (
