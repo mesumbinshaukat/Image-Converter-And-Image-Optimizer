@@ -93,15 +93,28 @@ const theme = createTheme({
     },
 })
 
+import { useLocation } from 'react-router-dom'
+
+function AppContent() {
+    const location = useLocation()
+    const isAdminPage = location.pathname.startsWith('/admin')
+
+    return (
+        <>
+            {!isAdminPage && <NavBar />}
+            <Router />
+            <CookieConsent />
+        </>
+    )
+}
+
 function App() {
     return (
         <Provider store={store}>
             <ThemeProvider theme={theme}>
                 <CssBaseline />
                 <BrowserRouter>
-                    <NavBar />
-                    <Router />
-                    <CookieConsent />
+                    <AppContent />
                 </BrowserRouter>
             </ThemeProvider>
         </Provider>

@@ -10,6 +10,10 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [react()],
         envDir: '../', // Point to the root directory where .env is located
+        build: {
+            outDir: '../',
+            emptyOutDir: false,
+        },
         server: {
             port: 3000,
             proxy: {

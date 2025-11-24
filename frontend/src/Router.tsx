@@ -10,6 +10,8 @@ import TermsOfServicePage from './pages/TermsOfServicePage.tsx';
 import RegisterPage from './pages/RegisterPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 
+import ProtectedRoute from './components/ProtectedRoute.tsx';
+
 function Router() {
     return (
         <Routes>
@@ -18,7 +20,11 @@ function Router() {
             <Route path="/convert" element={<ImageConverterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin-access" element={<LoginPage />} />
-            <Route path="/admin-dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin-dashboard" element={
+                <ProtectedRoute requireAdmin={true}>
+                    <AdminDashboardPage />
+                </ProtectedRoute>
+            } />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
