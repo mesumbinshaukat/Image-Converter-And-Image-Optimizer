@@ -14,7 +14,7 @@ function TermsOfServicePage() {
                         Terms of Service
                     </Typography>
                     <Typography color="text.secondary" sx={{ mb: 4 }}>
-                        Last updated: November 23, 2024
+                        Last updated: November 23, 2025
                     </Typography>
 
                     <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>

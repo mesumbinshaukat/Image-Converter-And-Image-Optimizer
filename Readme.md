@@ -290,7 +290,7 @@ Website: [https://worldoftech.company](https://worldoftech.company)
 
 ## 📄 License
 
-Proprietary - All rights reserved © 2024 World Of Tech
+Proprietary - All rights reserved © 2025 World Of Tech
 
 ## 🤝 Support
 

@@ -121,7 +121,7 @@ function HomePage() {
                         </Grid>
                     </Grid>
                     <Typography variant="body2" color="text.secondary" sx={{ mt: 4, textAlign: 'center' }}>
-                        © 2024 World Of Tech. All rights reserved.
+                        © 2025 World Of Tech. All rights reserved.
                     </Typography>
                 </Container>
             </Box>
