@@ -33,9 +33,17 @@ function ImageOptimizerPage() {
             const response = await api.post('/optimize', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
-            setResults(response.data.results)
+
+            // Validate response structure
+            if (response.data && Array.isArray(response.data.results)) {
+                setResults(response.data.results)
+            } else {
+                console.error('Invalid response format:', response.data)
+                setError('Received invalid response from server')
+            }
         } catch (err: any) {
-            setError(err.response?.data?.error || 'Failed to optimize images')
+            console.error('Optimization error:', err)
+            setError(err.response?.data?.error || err.response?.data?.message || 'Failed to optimize images')
         } finally {
             setLoading(false)
         }
