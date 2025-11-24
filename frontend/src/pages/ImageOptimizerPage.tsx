@@ -55,13 +55,19 @@ function ImageOptimizerPage() {
     return (
         <>
             <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
-                <Container maxWidth="md">
-                    <Typography variant="h4" gutterBottom fontWeight="bold">
-                        Image Optimizer
-                    </Typography>
-                    <Typography color="text.secondary" sx={{ mb: 4 }}>
-                        Compress images without losing quality
-                    </Typography>
+                <Container maxWidth="lg" sx={{ py: 4 }}>
+                    <Box sx={{ textAlign: 'center', mb: 4 }}>
+                        <Typography variant="h1" sx={{ fontSize: { xs: '2rem', md: '2.5rem' } }} gutterBottom fontWeight="bold">
+                            Free Image Optimizer - Compress JPG, PNG, WebP Online
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto', lineHeight: 1.7 }}>
+                            Reduce image file size up to 80% without quality loss. Our advanced compression algorithms optimize JPG, JPEG, PNG, and WebP images
+                            for faster website loading, better SEO rankings, and improved user experience. Perfect for bloggers, web developers, and e-commerce stores.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 3, fontStyle: 'italic' }}>
+                            Supported formats: JPG, JPEG, PNG, WebP, GIF, BMP • Batch processing • No watermarks • Free forever
+                        </Typography>
+                    </Box>
 
                     <Paper sx={{ p: 4 }}>
                         <DragDropUploader

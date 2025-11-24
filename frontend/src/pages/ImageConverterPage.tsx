@@ -1,23 +1,25 @@
 import { useState } from 'react'
-import { Container, Typography, Box, Button, Paper, Alert, LinearProgress, Select, MenuItem, FormControl, InputLabel } from '@mui/material'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+import { Container, Typography, Box, Button, Paper, Alert, LinearProgress, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
 import api from '../services/api'
+import DragDropUploader from '../components/DragDropUploader'
 import Footer from '../components/Footer'
 import { usePageTracking } from '../hooks/usePageTracking'
 
 function ImageConverterPage() {
     usePageTracking()
     const [files, setFiles] = useState<File[]>([])
-    const [format, setFormat] = useState('png')
     const [loading, setLoading] = useState(false)
     const [results, setResults] = useState<any[]>([])
     const [error, setError] = useState('')
+    const [targetFormat, setTargetFormat] = useState('png')
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-            setFiles(Array.from(e.target.files))
-            setError('')
-        }
+    const handleFilesSelected = (selectedFiles: File[]) => {
+        setFiles(selectedFiles)
+        setError('')
+    }
+
+    const handleFormatChange = (event: SelectChangeEvent) => {
+        setTargetFormat(event.target.value)
     }
 
     const handleConvert = async () => {
@@ -33,15 +35,13 @@ function ImageConverterPage() {
         files.forEach(file => {
             formData.append('images[]', file)
         })
-        formData.append('format', format)
-        formData.append('quality', '90')
+        formData.append('format', targetFormat)
 
         try {
             const response = await api.post('/convert', formData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
 
-            // Validate response structure
             if (response.data && Array.isArray(response.data.results)) {
                 setResults(response.data.results)
             } else {
@@ -59,51 +59,36 @@ function ImageConverterPage() {
     return (
         <>
             <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
-                <Container maxWidth="md">
-
-
-                    <Typography variant="h4" gutterBottom fontWeight="bold">
-                        Image Converter
-                    </Typography>
-                    <Typography color="text.secondary" sx={{ mb: 4 }}>
-                        Convert images between different formats
-                    </Typography>
+                <Container maxWidth="lg" sx={{ py: 4 }}>
+                    <Box sx={{ textAlign: 'center', mb: 4 }}>
+                        <Typography variant="h1" sx={{ fontSize: { xs: '2rem', md: '2.5rem' } }} gutterBottom fontWeight="bold">
+                            Free Image Converter - PNG to JPG, WebP, AVIF Online
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto', lineHeight: 1.7 }}>
+                            Convert images between formats instantly. Transform PNG to JPG for smaller files, JPG to WebP for modern web optimization,
+                            or convert to AVIF for next-gen compression. Support for JPG, PNG, WebP, GIF, BMP, and more. Fast, free, and secure.
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary" sx={{ mb: 3, fontStyle: 'italic' }}>
+                            Popular conversions: PNG to JPG • JPG to PNG • PNG to WebP • JPG to WebP • GIF to PNG • BMP to JPG
+                        </Typography>
+                    </Box>
 
                     <Paper sx={{ p: 4 }}>
-                        <Box sx={{ textAlign: 'center', mb: 3 }}>
-                            <input
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={handleFileChange}
-                                style={{ display: 'none' }}
-                                id="file-input"
-                            />
-                            <label htmlFor="file-input">
-                                <Button
-                                    variant="outlined"
-                                    component="span"
-                                    startIcon={<CloudUploadIcon />}
-                                    size="large"
-                                >
-                                    Select Images
-                                </Button>
-                            </label>
-                            {files.length > 0 && (
-                                <Typography sx={{ mt: 2 }}>
-                                    {files.length} file(s) selected
-                                </Typography>
-                            )}
-                        </Box>
+                        <DragDropUploader
+                            onFilesSelected={handleFilesSelected}
+                            maxFiles={50}
+                            disabled={loading}
+                        />
 
-                        <FormControl fullWidth sx={{ mb: 3 }}>
-                            <InputLabel>Target Format</InputLabel>
+                        <FormControl fullWidth sx={{ mt: 3 }}>
+                            <InputLabel>Convert To</InputLabel>
                             <Select
-                                value={format}
-                                label="Target Format"
-                                onChange={(e) => setFormat(e.target.value)}
+                                value={targetFormat}
+                                label="Convert To"
+                                onChange={handleFormatChange}
+                                disabled={loading}
                             >
-                                <MenuItem value="jpg">JPG</MenuItem>
+                                <MenuItem value="jpg">JPG/JPEG</MenuItem>
                                 <MenuItem value="png">PNG</MenuItem>
                                 <MenuItem value="webp">WebP</MenuItem>
                                 <MenuItem value="gif">GIF</MenuItem>
@@ -111,7 +96,7 @@ function ImageConverterPage() {
                             </Select>
                         </FormControl>
 
-                        {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
+                        {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
 
                         <Button
                             variant="contained"
@@ -120,13 +105,14 @@ function ImageConverterPage() {
                             onClick={handleConvert}
                             disabled={loading || files.length === 0}
                             sx={{
+                                mt: 3,
                                 color: 'white',
                                 '&:hover': {
                                     color: 'white',
                                 },
                             }}
                         >
-                            {loading ? 'Converting...' : 'Convert Images'}
+                            {loading ? 'Converting...' : `Convert to ${targetFormat.toUpperCase()}`}
                         </Button>
 
                         {loading && <LinearProgress sx={{ mt: 2 }} />}
@@ -142,10 +128,10 @@ function ImageConverterPage() {
                                         ) : (
                                             <>
                                                 <Typography>
-                                                    {result.original_format.toUpperCase()} → {result.converted_format.toUpperCase()}
+                                                    Converted to: {result.format.toUpperCase()}
                                                 </Typography>
                                                 <Typography>
-                                                    Size: {(result.original_size / 1024).toFixed(2)} KB → {(result.converted_size / 1024).toFixed(2)} KB
+                                                    Size: {(result.size / 1024).toFixed(2)} KB
                                                 </Typography>
                                                 <Button
                                                     variant="contained"
