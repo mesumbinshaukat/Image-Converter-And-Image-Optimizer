@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Allow static files
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^ - [L]
+
+  # API routes go to Laravel backend
+  RewriteCond %{REQUEST_URI} ^/api
+  RewriteRule ^ backend/public/index.php [L]
+
+  # All other routes go to React
+  RewriteRule ^ index.html [L]
+</IfModule>
