@@ -27,6 +27,10 @@ Route::post('/convert', [ImageConvertController::class, 'convert']);
 Route::get('/formats', [ImageConvertController::class, 'formats']);
 Route::get('/download/{id}', [ImageDownloadController::class, 'download']);
 
+// Analytics tracking (public - no auth required)
+Route::post('/analytics/page-view', [AdminController::class, 'trackPageView']);
+Route::post('/analytics/page-exit', [AdminController::class, 'trackPageExit']);
+
 // Authenticated routes
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -38,6 +42,10 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/users', [AdminController::class, 'users']);
     Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
     Route::get('/analytics', [AdminController::class, 'analytics']);
+    Route::get('/analytics/page-views', [AdminController::class, 'pageViews']);
+    Route::get('/analytics/traffic-summary', [AdminController::class, 'trafficSummary']);
+    Route::get('/analytics/trends', [AdminController::class, 'pageViewTrends']);
+    Route::get('/analytics/referrers', [AdminController::class, 'topReferrers']);
     Route::get('/logs', [AdminController::class, 'logs']);
     Route::get('/contacts', [AdminController::class, 'contacts']);
     Route::patch('/contacts/{id}/review', [AdminController::class, 'markContactReviewed']);

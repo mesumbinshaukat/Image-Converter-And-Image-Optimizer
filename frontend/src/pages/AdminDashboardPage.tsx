@@ -30,6 +30,7 @@ import ImageIcon from '@mui/icons-material/Image';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
 import api from '../services/api';
+import { usePageTracking } from '../hooks/usePageTracking';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -53,6 +54,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function AdminDashboardPage() {
+    usePageTracking();
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { user, isAuthenticated } = useSelector((state: RootState) => state.auth);
@@ -62,6 +64,10 @@ export default function AdminDashboardPage() {
     const [analytics, setAnalytics] = useState<any>(null);
     const [logs, setLogs] = useState<any[]>([]);
     const [contacts, setContacts] = useState<any[]>([]);
+    const [pageViews, setPageViews] = useState<any[]>([]);
+    const [realtimeActivity, setRealtimeActivity] = useState<any[]>([]);
+    const [dateRange, setDateRange] = useState<string>('today');
+    const [autoRefresh, setAutoRefresh] = useState(true);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -73,14 +79,33 @@ export default function AdminDashboardPage() {
         }
     }, [isAuthenticated, user, navigate]);
 
+    // Auto-refresh effect for real-time activity
+    useEffect(() => {
+        if (!autoRefresh || !isAuthenticated || user?.role !== 'admin') return;
+
+        const interval = setInterval(() => {
+            loadRealtimeActivity();
+        }, 10000); // Refresh every 10 seconds
+
+        return () => clearInterval(interval);
+    }, [autoRefresh, isAuthenticated, user]);
+
+    // Reload data when date range changes
+    useEffect(() => {
+        if (isAuthenticated && user?.role === 'admin') {
+            loadDashboardData();
+        }
+    }, [dateRange]);
+
     const loadDashboardData = async () => {
         setLoading(true);
         try {
-            const [usersRes, analyticsRes, logsRes, contactsRes] = await Promise.allSettled([
+            const [usersRes, analyticsRes, logsRes, contactsRes, pageViewsRes] = await Promise.allSettled([
                 api.get('/admin/users'),
-                api.get('/admin/analytics'),
+                api.get('/admin/analytics', { params: { period: dateRange } }),
                 api.get('/admin/logs'),
                 api.get('/admin/contacts'),
+                api.get('/admin/analytics/page-views', { params: { period: dateRange } }),
             ]);
 
             // Handle users response
@@ -119,6 +144,14 @@ export default function AdminDashboardPage() {
                 console.error('Error loading contacts:', contactsRes.reason);
                 setContacts([]);
             }
+
+            // Handle page views response
+            if (pageViewsRes.status === 'fulfilled') {
+                setPageViews(pageViewsRes.value.data.data || []);
+            } else {
+                console.error('Error loading page views:', pageViewsRes.reason);
+                setPageViews([]);
+            }
         } catch (error) {
             console.error('Error loading dashboard data:', error);
             // Set empty defaults
@@ -131,8 +164,18 @@ export default function AdminDashboardPage() {
             });
             setLogs([]);
             setContacts([]);
+            setPageViews([]);
         } finally {
             setLoading(false);
+        }
+    };
+
+    const loadRealtimeActivity = async () => {
+        try {
+            const response = await api.get('/admin/logs', { params: { limit: 20 } });
+            setRealtimeActivity(response.data.data || []);
+        } catch (error) {
+            console.error('Error loading realtime activity:', error);
         }
     };
 
@@ -262,12 +305,79 @@ export default function AdminDashboardPage() {
                     </Grid>
                 </Grid>
 
+                {/* Filters Section */}
+                <Paper sx={{ p: 2, mb: 3 }}>
+                    <Grid container spacing={2} alignItems="center">
+                        <Grid item xs={12} sm={4}>
+                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                Date Range
+                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button
+                                    variant={dateRange === 'today' ? 'contained' : 'outlined'}
+                                    size="small"
+                                    onClick={() => setDateRange('today')}
+                                >
+                                    Today
+                                </Button>
+                                <Button
+                                    variant={dateRange === 'week' ? 'contained' : 'outlined'}
+                                    size="small"
+                                    onClick={() => setDateRange('week')}
+                                >
+                                    Week
+                                </Button>
+                                <Button
+                                    variant={dateRange === 'month' ? 'contained' : 'outlined'}
+                                    size="small"
+                                    onClick={() => setDateRange('month')}
+                                >
+                                    Month
+                                </Button>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                Auto-Refresh
+                            </Typography>
+                            <Box sx={{ display: 'flex', gap: 1 }}>
+                                <Button
+                                    variant={autoRefresh ? 'contained' : 'outlined'}
+                                    size="small"
+                                    onClick={() => setAutoRefresh(!autoRefresh)}
+                                    color={autoRefresh ? 'success' : 'inherit'}
+                                >
+                                    {autoRefresh ? 'ON' : 'OFF'}
+                                </Button>
+                                <Typography variant="caption" color="text.secondary" sx={{ alignSelf: 'center' }}>
+                                    {autoRefresh && '(Every 10s)'}
+                                </Typography>
+                            </Box>
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <Typography variant="body2" color="text.secondary" gutterBottom>
+                                Actions
+                            </Typography>
+                            <Button
+                                variant="outlined"
+                                size="small"
+                                onClick={loadDashboardData}
+                                disabled={loading}
+                            >
+                                Refresh Now
+                            </Button>
+                        </Grid>
+                    </Grid>
+                </Paper>
+
                 {/* Tabs */}
                 <Paper sx={{ mb: 3 }}>
                     <Tabs value={tabValue} onChange={(_, newValue) => setTabValue(newValue)} aria-label="admin tabs">
                         <Tab label="Users" />
                         <Tab label="Activity Logs" />
                         <Tab label="Contact Submissions" />
+                        <Tab label="Page Traffic" />
+                        <Tab label="Real-time Activity" />
                     </Tabs>
                 </Paper>
 
@@ -410,6 +520,166 @@ export default function AdminDashboardPage() {
                                                         Mark Reviewed
                                                     </Button>
                                                 )}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </TabPanel>
+
+                {/* Page Traffic Tab */}
+                <TabPanel value={tabValue} index={3}>
+                    <Grid container spacing={3} sx={{ mb: 3 }}>
+                        <Grid item xs={12} md={6}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        Most Visited Pages
+                                    </Typography>
+                                    <TableContainer>
+                                        <Table size="small">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell><strong>Page</strong></TableCell>
+                                                    <TableCell align="right"><strong>Views</strong></TableCell>
+                                                    <TableCell align="right"><strong>Avg Duration</strong></TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {pageViews.length === 0 ? (
+                                                    <TableRow>
+                                                        <TableCell colSpan={3} align="center">
+                                                            <Typography color="text.secondary">No page view data available</Typography>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                ) : (
+                                                    pageViews.slice(0, 10).map((page: any, index: number) => (
+                                                        <TableRow key={index}>
+                                                            <TableCell>{page.page_path}</TableCell>
+                                                            <TableCell align="right">{page.views}</TableCell>
+                                                            <TableCell align="right">
+                                                                {page.avg_duration ? `${Math.floor(page.avg_duration)}s` : 'N/A'}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ))
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} md={6}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        Traffic Summary
+                                    </Typography>
+                                    <Box sx={{ mt: 2 }}>
+                                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                                            Total Page Views Today
+                                        </Typography>
+                                        <Typography variant="h4" fontWeight="bold" color="primary.main">
+                                            {analytics?.page_views_today || 0}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ mt: 3 }}>
+                                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                                            Unique Visitors Today
+                                        </Typography>
+                                        <Typography variant="h4" fontWeight="bold" color="success.main">
+                                            {analytics?.unique_visitors_today || 0}
+                                        </Typography>
+                                    </Box>
+                                    <Box sx={{ mt: 3 }}>
+                                        <Typography variant="body2" color="text.secondary" gutterBottom>
+                                            Average Session Duration
+                                        </Typography>
+                                        <Typography variant="h4" fontWeight="bold" color="info.main">
+                                            {analytics?.avg_session_duration ? `${Math.floor(analytics.avg_session_duration)}s` : 'N/A'}
+                                        </Typography>
+                                    </Box>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+                </TabPanel>
+
+                {/* Real-time Activity Tab */}
+                <TabPanel value={tabValue} index={4}>
+                    <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Typography variant="h6">
+                            Live Activity Feed
+                        </Typography>
+                        <Chip
+                            label={autoRefresh ? 'Auto-refreshing' : 'Paused'}
+                            color={autoRefresh ? 'success' : 'default'}
+                            size="small"
+                        />
+                    </Box>
+                    <TableContainer component={Paper}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell><strong>Time</strong></TableCell>
+                                    <TableCell><strong>User</strong></TableCell>
+                                    <TableCell><strong>Action</strong></TableCell>
+                                    <TableCell><strong>Description</strong></TableCell>
+                                    <TableCell><strong>Status</strong></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {realtimeActivity.length === 0 ? (
+                                    <TableRow>
+                                        <TableCell colSpan={5} align="center">
+                                            <Typography color="text.secondary">No recent activity</Typography>
+                                        </TableCell>
+                                    </TableRow>
+                                ) : (
+                                    realtimeActivity.map((log: any) => (
+                                        <TableRow key={log.id}>
+                                            <TableCell>
+                                                <Typography variant="caption">
+                                                    {new Date(log.created_at).toLocaleString()}
+                                                </Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                {log.user ? (
+                                                    <Box>
+                                                        <Typography variant="body2">{log.user.name}</Typography>
+                                                        <Typography variant="caption" color="text.secondary">
+                                                            {log.user.email}
+                                                        </Typography>
+                                                    </Box>
+                                                ) : (
+                                                    <Typography variant="caption" color="text.secondary">
+                                                        Guest ({log.ip_address})
+                                                    </Typography>
+                                                )}
+                                            </TableCell>
+                                            <TableCell>
+                                                <Chip
+                                                    label={log.action}
+                                                    size="small"
+                                                    color={
+                                                        log.action === 'login' ? 'success' :
+                                                            log.action === 'logout' ? 'default' :
+                                                                log.action === 'page_view' ? 'info' :
+                                                                    'primary'
+                                                    }
+                                                />
+                                            </TableCell>
+                                            <TableCell>
+                                                <Typography variant="body2">{log.description}</Typography>
+                                            </TableCell>
+                                            <TableCell>
+                                                <Chip
+                                                    label={log.status || 'success'}
+                                                    size="small"
+                                                    color={log.status === 'error' ? 'error' : 'success'}
+                                                />
                                             </TableCell>
                                         </TableRow>
                                     ))

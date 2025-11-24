@@ -5,30 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ActivityLog extends Model
+class PageView extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'user_id',
+        'session_id',
         'ip_address',
-        'action',
-        'entity_type',
-        'entity_id',
-        'description',
-        'level',
-        'error_message',
-        'stack_trace',
-        'metadata',
-        'status',
+        'page_path',
+        'referrer',
+        'user_agent',
+        'entry_time',
+        'exit_time',
+        'duration',
     ];
 
     protected $casts = [
-        'metadata' => 'array',
+        'entry_time' => 'datetime',
+        'exit_time' => 'datetime',
     ];
 
     /**
-     * Get the user that owns the activity log.
+     * Get the user that owns the page view.
      */
     public function user()
     {

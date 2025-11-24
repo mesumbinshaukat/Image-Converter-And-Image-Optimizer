@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom'
 import ImageIcon from '@mui/icons-material/Image'
 import CompressIcon from '@mui/icons-material/Compress'
 import TransformIcon from '@mui/icons-material/Transform'
+import Footer from '../components/Footer'
+import { usePageTracking } from '../hooks/usePageTracking'
 
 function HomePage() {
     const navigate = useNavigate()
+    usePageTracking()
 
     return (
         <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
@@ -102,29 +105,7 @@ function HomePage() {
             </Container>
 
             {/* Footer */}
-            <Box sx={{ bgcolor: 'grey.100', py: 4, mt: 8 }}>
-                <Container>
-                    <Grid container spacing={4}>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" gutterBottom>Imgify</Typography>
-                            <Typography color="text.secondary">
-                                Professional image optimization and conversion tool
-                            </Typography>
-                        </Grid>
-                        <Grid item xs={12} md={6}>
-                            <Typography variant="h6" gutterBottom>Links</Typography>
-                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-                                <Button onClick={() => navigate('/privacy-policy')}>Privacy Policy</Button>
-                                <Button onClick={() => navigate('/terms-of-service')}>Terms of Service</Button>
-                                <Button onClick={() => navigate('/contact')}>Contact</Button>
-                            </Box>
-                        </Grid>
-                    </Grid>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 4, textAlign: 'center' }}>
-                        © 2025 World Of Tech. All rights reserved.
-                    </Typography>
-                </Container>
-            </Box>
+            <Footer />
         </Box >
     )
 }

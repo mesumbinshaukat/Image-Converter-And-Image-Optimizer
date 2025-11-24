@@ -7,12 +7,19 @@ use App\Models\User;
 use App\Models\Image;
 use App\Models\ActivityLog;
 use App\Models\ContactSubmission;
+use App\Services\AnalyticsService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
+    protected $analyticsService;
+
+    public function __construct(AnalyticsService $analyticsService)
+    {
+        $this->analyticsService = $analyticsService;
+    }
     /**
      * Get all users
      */
@@ -68,6 +75,9 @@ class AdminController extends Controller
                 \Log::warning('Error calculating storage saved: ' . $e->getMessage());
             }
 
+            // Get traffic summary from AnalyticsService
+            $trafficSummary = $this->analyticsService->getTrafficSummary($period);
+
             $stats = [
                 'total_users' => $totalUsers,
                 'total_images' => $totalImages,
@@ -85,6 +95,10 @@ class AdminController extends Controller
                     ->where('created_at', '>=', $startDate)
                     ->count(),
                 'total_storage_saved' => $storageSaved,
+                // Add traffic summary data
+                'page_views_today' => $trafficSummary['page_views_today'] ?? 0,
+                'unique_visitors_today' => $trafficSummary['unique_visitors_today'] ?? 0,
+                'avg_session_duration' => $trafficSummary['avg_session_duration'] ?? 0,
             ];
 
             // Daily breakdown with error handling
@@ -121,6 +135,9 @@ class AdminController extends Controller
                     'total_optimizations' => 0,
                     'total_conversions' => 0,
                     'total_storage_saved' => 0,
+                    'page_views_today' => 0,
+                    'unique_visitors_today' => 0,
+                    'avg_session_duration' => 0,
                 ],
                 'daily_breakdown' => [],
             ]);
@@ -217,6 +234,162 @@ class AdminController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to delete user',
+            ], 500);
+        }
+    }
+
+    /**
+     * Get page view analytics
+     */
+    public function pageViews(Request $request)
+    {
+        try {
+            $period = $request->input('period', 'today');
+            
+            $pageViews = $this->analyticsService->getPageViewStats($period);
+            $trafficSummary = $this->analyticsService->getTrafficSummary($period);
+
+            return response()->json([
+                'data' => $pageViews,
+                'summary' => $trafficSummary,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Page views error: ' . $e->getMessage());
+            return response()->json([
+                'data' => [],
+                'summary' => [
+                    'page_views_today' => 0,
+                    'unique_visitors_today' => 0,
+                    'avg_session_duration' => 0,
+                    'total_sessions' => 0,
+                ],
+            ]);
+        }
+    }
+
+    /**
+     * Get traffic summary
+     */
+    public function trafficSummary(Request $request)
+    {
+        try {
+            $period = $request->input('period', 'today');
+            $summary = $this->analyticsService->getTrafficSummary($period);
+
+            return response()->json([
+                'success' => true,
+                'data' => $summary,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Traffic summary error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'data' => [],
+            ], 500);
+        }
+    }
+
+    /**
+     * Track page view entry
+     */
+    public function trackPageView(Request $request)
+    {
+        try {
+            $data = [
+                'user_id' => $request->user()?->id,
+                'session_id' => $request->input('session_id'),
+                'ip_address' => $request->ip(),
+                'page_path' => $request->input('page_path'),
+                'referrer' => $request->input('referrer'),
+                'user_agent' => $request->input('user_agent'),
+                'entry_time' => $request->input('entry_time'),
+            ];
+
+            $pageView = $this->analyticsService->trackPageView($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Page view tracked',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Track page view error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to track page view',
+            ], 500);
+        }
+    }
+
+    /**
+     * Track page exit
+     */
+    public function trackPageExit(Request $request)
+    {
+        try {
+            $data = [
+                'session_id' => $request->input('session_id'),
+                'page_path' => $request->input('page_path'),
+                'exit_time' => $request->input('exit_time'),
+                'duration' => $request->input('duration'),
+            ];
+
+            $pageView = $this->analyticsService->trackPageExit($data);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Page exit tracked',
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Track page exit error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to track page exit',
+            ], 500);
+        }
+    }
+
+    /**
+     * Get page view trends
+     */
+    public function pageViewTrends(Request $request)
+    {
+        try {
+            $days = $request->input('days', 7);
+            $trends = $this->analyticsService->getPageViewTrends($days);
+
+            return response()->json([
+                'success' => true,
+                'data' => $trends,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Page view trends error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'data' => [],
+            ], 500);
+        }
+    }
+
+    /**
+     * Get top referrers
+     */
+    public function topReferrers(Request $request)
+    {
+        try {
+            $period = $request->input('period', 'today');
+            $limit = $request->input('limit', 10);
+            
+            $referrers = $this->analyticsService->getTopReferrers($period, $limit);
+
+            return response()->json([
+                'success' => true,
+                'data' => $referrers,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Top referrers error: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'data' => [],
             ], 500);
         }
     }
