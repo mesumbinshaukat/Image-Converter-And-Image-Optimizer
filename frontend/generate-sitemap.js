@@ -66,26 +66,32 @@ const routes = [
     }
 ];
 
-// Generate sitemap XML
+// Generate sitemap XML in exact format specified
 const generateSitemap = () => {
     const currentDate = getCurrentDate();
 
-    let xml = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n`;
-    xml += `<script id="eppiocemhmnlbhjplcgkofciiegomcon"/>\n`;
-    xml += `<script/>\n`;
-    xml += `<script/>\n`;
+    // Start with XML declaration and urlset opening tag
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"\n';
+    xml += '        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"\n';
+    xml += '        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9\n';
+    xml += '        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n';
+    xml += '    \n';
 
+    // Add each route
     routes.forEach(route => {
-        xml += `<!--  ${route.comment}  -->\n`;
-        xml += `<url>\n`;
-        xml += `<loc>${route.loc}</loc>\n`;
-        xml += `<lastmod>${currentDate}</lastmod>\n`;
-        xml += `<changefreq>${route.changefreq}</changefreq>\n`;
-        xml += `<priority>${route.priority}</priority>\n`;
-        xml += `</url>\n`;
+        xml += `    <!-- ${route.comment} -->\n`;
+        xml += '    <url>\n';
+        xml += `        <loc>${route.loc}</loc>\n`;
+        xml += `        <lastmod>${currentDate}</lastmod>\n`;
+        xml += `        <changefreq>${route.changefreq}</changefreq>\n`;
+        xml += `        <priority>${route.priority}</priority>\n`;
+        xml += '    </url>\n';
+        xml += '    \n';
     });
 
-    xml += `</urlset>\n`;
+    // Close urlset
+    xml += '</urlset>\n';
 
     return xml;
 };
