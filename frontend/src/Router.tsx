@@ -1,16 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import AdminDashboardPage from './pages/AdminDashboardPage.tsx';
-import HomePage from './pages/HomePage.tsx';
-import ImageOptimizerPage from './pages/ImageOptimizerPage.tsx';
-import ImageConverterPage from './pages/ImageConverterPage.tsx';
-import LoginPage from './pages/LoginPage.tsx';
-import ContactPage from './pages/ContactPage.tsx';
-import PrivacyPolicyPage from './pages/PrivacyPolicyPage.tsx';
-import TermsOfServicePage from './pages/TermsOfServicePage.tsx';
-import RegisterPage from './pages/RegisterPage.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
+import AdminDashboardPage from './pages/AdminDashboardPage';
+import HomePage from './pages/HomePage';
+import ImageOptimizerPage from './pages/ImageOptimizerPage';
+import ImageConverterPage from './pages/ImageConverterPage';
+import LoginPage from './pages/LoginPage';
+import ContactPage from './pages/ContactPage';
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
+import TermsOfServicePage from './pages/TermsOfServicePage';
+import RegisterPage from './pages/RegisterPage';
+import NotFoundPage from './pages/NotFoundPage';
 
-import ProtectedRoute from './components/ProtectedRoute.tsx';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function Router() {
     return (

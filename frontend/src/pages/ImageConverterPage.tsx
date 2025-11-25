@@ -128,10 +128,10 @@ function ImageConverterPage() {
                                         ) : (
                                             <>
                                                 <Typography>
-                                                    Converted to: {(result.converted_format || result.format || 'unknown').toUpperCase()}
+                                                    Converted to: {result.format.toUpperCase()}
                                                 </Typography>
                                                 <Typography>
-                                                    Size: {((result.converted_size || result.size || 0) / 1024).toFixed(2)} KB
+                                                    Size: {(result.size / 1024).toFixed(2)} KB
                                                 </Typography>
                                                 <Button
                                                     variant="contained"
