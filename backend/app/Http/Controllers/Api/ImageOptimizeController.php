@@ -68,12 +68,16 @@ class ImageOptimizeController extends Controller
                     'expires_at' => Carbon::now()->addHours(config('imgify.file_retention_hours')),
                 ]);
 
+                $compressionRatio = $result['compression_ratio'];
+                $alreadyOptimized = $compressionRatio <= 1; // Less than or equal to 1% savings
+                
                 $results[] = [
                     'id' => $image->id,
                     'filename' => $file->getClientOriginalName(),
                     'original_size' => $result['original_size'],
                     'optimized_size' => $result['processed_size'],
-                    'compression_ratio' => $result['compression_ratio'],
+                    'compression_ratio' => $compressionRatio,
+                    'already_optimized' => $alreadyOptimized,
                     'download_url' => url('/api/download/' . $image->id),
                 ];
             } catch (\Exception $e) {

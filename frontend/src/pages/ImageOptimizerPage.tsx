@@ -104,13 +104,34 @@ function ImageOptimizerPage() {
                                         <Typography><strong>{result.filename}</strong></Typography>
                                         {result.error ? (
                                             <Typography color="error">{result.error}</Typography>
+                                        ) : result.already_optimized ? (
+                                            <>
+                                                <Alert severity="info" sx={{ mt: 1, mb: 1 }}>
+                                                    This image is already well-optimized! Compression savings: {result.compression_ratio || 0}%
+                                                </Alert>
+                                                <Typography>
+                                                    Size: {((result.original_size || 0) / 1024).toFixed(2)} KB → {((result.optimized_size || 0) / 1024).toFixed(2)} KB
+                                                </Typography>
+                                                <Button
+                                                    variant="contained"
+                                                    size="small"
+                                                    sx={{
+                                                        mt: 1,
+                                                        color: 'white',
+                                                    }}
+                                                    href={result.download_url}
+                                                    download
+                                                >
+                                                    Download
+                                                </Button>
+                                            </>
                                         ) : (
                                             <>
                                                 <Typography>
-                                                    Size: {(result.original_size / 1024).toFixed(2)} KB → {(result.optimized_size / 1024).toFixed(2)} KB
+                                                    Size: {((result.original_size || 0) / 1024).toFixed(2)} KB → {((result.optimized_size || 0) / 1024).toFixed(2)} KB
                                                 </Typography>
                                                 <Typography color="success.main">
-                                                    Saved: {result.compression_ratio}%
+                                                    Saved: {result.compression_ratio || 0}%
                                                 </Typography>
                                                 <Button
                                                     variant="contained"

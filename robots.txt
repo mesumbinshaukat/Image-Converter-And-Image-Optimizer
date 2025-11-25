@@ -8,7 +8,7 @@ Disallow: /admin-dashboard
 Disallow: /api/
 
 # Sitemap
-Sitemap: https://imgify.worldoftech.company/sitemap.xml
+Sitemap: https://imgify.com/sitemap.xml
 
 # Crawl-delay for all bots
 Crawl-delay: 1

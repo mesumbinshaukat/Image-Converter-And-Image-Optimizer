@@ -73,7 +73,9 @@ class ImageConvertController extends Controller
                     'id' => $image->id,
                     'filename' => $file->getClientOriginalName(),
                     'original_format' => $result['original_format'],
+                    'format' => $result['target_format'], // For frontend compatibility
                     'converted_format' => $result['target_format'],
+                    'size' => $result['processed_size'], // For frontend compatibility
                     'original_size' => $result['original_size'],
                     'converted_size' => $result['processed_size'],
                     'download_url' => url('/api/download/' . $image->id),
