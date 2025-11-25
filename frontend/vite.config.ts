@@ -18,7 +18,7 @@ export default defineConfig(({ mode }) => {
             port: 3000,
             proxy: {
                 '/api': {
-                    target: env.VITE_API_BASE_URL || 'https://imgify.worldoftech.company/',
+                    target: env.VITE_API_BASE_URL || 'https://imgify.worldoftech.company',
                     changeOrigin: true,
                     rewrite: (path) => path.replace(/^\/api/, '/backend/public/index.php/api')
                 }
