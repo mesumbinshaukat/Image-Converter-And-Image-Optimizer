@@ -648,7 +648,7 @@ export default function AdminDashboardPage() {
                                             <TableCell>
                                                 {log.user ? (
                                                     <Box>
-                                                        <Typography variant="body2">{log.user.name}</Typography>
+                                                        <Typography variant="body2">{log.user.username}</Typography>
                                                         <Typography variant="caption" color="text.secondary">
                                                             {log.user.email}
                                                         </Typography>

@@ -99,7 +99,7 @@ export default function NavBar() {
             {isAuthenticated && user && (
                 <Box sx={{ px: 2, py: 1.5, bgcolor: 'rgba(255,255,255,0.1)', mb: 1 }}>
                     <Typography variant="body1" sx={{ fontWeight: 600, textAlign: 'center' }}>
-                        Hi, {user.name}!
+                        Hi, {user.username}!
                     </Typography>
                 </Box>
             )}
@@ -276,7 +276,7 @@ export default function NavBar() {
                                     fontWeight: 500,
                                 }}
                             >
-                                Hi, {user.name}!
+                                Hi, {user.username}!
                             </Typography>
                         )}
                         {authItems.map((item) => {
