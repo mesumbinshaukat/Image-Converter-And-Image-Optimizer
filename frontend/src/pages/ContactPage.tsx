@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Container, Typography, Box, Button, Paper, TextField, Alert } from '@mui/material'
 import api from '../services/api'
+import Footer from '../components/Footer.tsx'
 
 function ContactPage() {
     const [formData, setFormData] = useState({
@@ -32,11 +33,11 @@ function ContactPage() {
     }
 
     return (
-        <Box sx={{ minHeight: '100vh', bgcolor: 'background.default', py: 4 }}>
+        <Box sx={{ minHeight: '100vh', bgcolor: 'background.default' }}>
             <Container maxWidth="md">
 
 
-                <Typography variant="h4" gutterBottom fontWeight="bold">
+                <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ py: 4 }}>
                     Contact Us
                 </Typography>
                 <Typography color="text.secondary" sx={{ mb: 4 }}>
@@ -102,6 +103,7 @@ function ContactPage() {
                     </form>
                 </Paper>
             </Container>
+            <Footer />
         </Box>
     )
 }

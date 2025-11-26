@@ -10,6 +10,7 @@ import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
 import TermsOfServicePage from './pages/TermsOfServicePage';
 import RegisterPage from './pages/RegisterPage';
 import NotFoundPage from './pages/NotFoundPage';
+import AboutPage from './pages/AboutPage';
 
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -31,6 +32,7 @@ function Router() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
             <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="*" element={<NotFoundPage />} />
         </Routes>
     )

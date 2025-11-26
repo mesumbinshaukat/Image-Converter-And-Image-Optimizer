@@ -35,6 +35,7 @@ export default function Footer() {
         { label: 'Optimize Images', path: '/optimize' },
         { label: 'Convert Images', path: '/convert' },
         { label: 'Remove Background', path: '/remove-background' },
+        { label: 'About Us', path: '/about' },
         { label: 'Contact Us', path: '/contact' },
     ];
 

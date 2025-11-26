@@ -61,6 +61,22 @@ function HomePage() {
                             Convert Image Format
                         </Button>
                     </Box>
+                    <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 3 }}>
+                        <Button
+                            color="inherit"
+                            onClick={() => navigate('/about')}
+                            sx={{ color: 'text.secondary' }}
+                        >
+                            About Us
+                        </Button>
+                        <Button
+                            color="inherit"
+                            onClick={() => navigate('/contact')}
+                            sx={{ color: 'text.secondary' }}
+                        >
+                            Contact Us
+                        </Button>
+                    </Box>
                 </Box>
 
                 {/* Features */}

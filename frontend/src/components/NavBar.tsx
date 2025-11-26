@@ -3,6 +3,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
+import EmailIcon from '@mui/icons-material/Email';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
@@ -48,6 +49,8 @@ export default function NavBar() {
         { label: 'Optimize', to: '/optimize', icon: <CompressIcon /> },
         { label: 'Convert', to: '/convert', icon: <TransformIcon /> },
         { label: 'Remove BG', to: '/remove-background', icon: <ContentCutIcon /> },
+        { label: 'About Us', to: '/about', icon: <HomeIcon /> }, // Reusing HomeIcon for now, or could import InfoIcon
+        { label: 'Contact Us', to: '/contact', icon: <EmailIcon /> },
     ];
 
     const authItems = isAuthenticated ? [
