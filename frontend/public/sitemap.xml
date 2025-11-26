@@ -1,71 +1,86 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-    
+
     <!-- Homepage -->
     <url>
-        <loc>/</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
-    
+
     <!-- Image Optimizer -->
     <url>
-        <loc>/optimize</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/optimize</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
-    
+
     <!-- Image Converter -->
     <url>
-        <loc>/convert</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/convert</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.9</priority>
     </url>
-    
+
+    <!-- Image Background Remover -->
+    <url>
+        <loc>https://imgify.worldoftech.company/remove-background</loc>
+        <lastmod>2025-11-26</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+
+    <!-- About Us -->
+    <url>
+        <loc>https://imgify.worldoftech.company/about</loc>
+        <lastmod>2025-11-26</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>1</priority>
+    </url>
+
     <!-- Login -->
     <url>
-        <loc>/login</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/login</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-    
+
     <!-- Register -->
     <url>
-        <loc>/register</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/register</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.6</priority>
     </url>
-    
+
     <!-- Contact -->
     <url>
-        <loc>/contact</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/contact</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.7</priority>
     </url>
-    
+
     <!-- Privacy Policy -->
     <url>
-        <loc>/privacy-policy</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/privacy-policy</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
-    
+
     <!-- Terms of Service -->
     <url>
-        <loc>/terms-of-service</loc>
-        <lastmod>2025-11-24</lastmod>
+        <loc>https://imgify.worldoftech.company/terms-of-service</loc>
+        <lastmod>2025-11-26</lastmod>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
-    
+
 </urlset>

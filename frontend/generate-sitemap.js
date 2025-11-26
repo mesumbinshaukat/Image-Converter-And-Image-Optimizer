@@ -40,6 +40,14 @@ const routes = [
         changefreq: 'weekly',
         priority: '0.9'
     },
+    
+    {
+        comment: 'About Us',
+        loc: 'https://imgify.worldoftech.company/about',
+        changefreq: 'weekly',
+        priority: '1'
+    },
+
     {
         comment: 'Login',
         loc: 'https://imgify.worldoftech.company/login',
