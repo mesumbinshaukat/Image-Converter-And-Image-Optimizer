@@ -4,11 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Image;
+use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
 class AnalyticsController extends Controller
 {
+    protected $locationService;
+
+    public function __construct(LocationService $locationService)
+    {
+        $this->locationService = $locationService;
+    }
+
     /**
      * Track background removal analytics
      */
@@ -27,10 +35,14 @@ class AnalyticsController extends Controller
         $user = $request->user();
 
         try {
+            // Get country from IP
+            $country = $this->locationService->getCountryFromIp($ipAddress);
+            
             // Save to database using existing Image model
             $image = Image::create([
                 'user_id' => $user?->id,
                 'ip_address' => $ipAddress,
+                'country' => $country,
                 'original_filename' => $request->input('filename'),
                 'original_path' => null, // Client-side processing, no server path
                 'processed_path' => null, // Client-side processing, no server path

@@ -213,6 +213,8 @@ export default function CookieConsent() {
                             </Box>
                             <Typography variant="body2" color="text.secondary">
                                 These cookies help us understand how visitors interact with our website by collecting and reporting information anonymously.
+                                We track page views, feature usage (optimization, conversion, background removal), processing times, success rates, and
+                                country-level location (derived from IP address, not precise location). This data helps us improve our services and user experience.
                             </Typography>
                         </Box>
 
@@ -231,7 +233,8 @@ export default function CookieConsent() {
                                 </Button>
                             </Box>
                             <Typography variant="body2" color="text.secondary">
-                                These cookies are used to track visitors across websites to display relevant advertisements and measure campaign effectiveness.
+                                These cookies are used by Google AdSense to display relevant advertisements and measure campaign effectiveness.
+                                They track visitors across websites to show personalized ads. Disabling these cookies will show non-personalized ads instead.
                             </Typography>
                         </Box>
 

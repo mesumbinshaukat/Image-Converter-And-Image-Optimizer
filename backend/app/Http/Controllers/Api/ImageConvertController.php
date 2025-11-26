@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Services\ImageConversionService;
 use App\Services\RateLimitService;
+use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -13,11 +14,16 @@ class ImageConvertController extends Controller
 {
     protected $conversionService;
     protected $rateLimitService;
+    protected $locationService;
 
-    public function __construct(ImageConversionService $conversionService, RateLimitService $rateLimitService)
-    {
+    public function __construct(
+        ImageConversionService $conversionService,
+        RateLimitService $rateLimitService,
+        LocationService $locationService
+    ) {
         $this->conversionService = $conversionService;
         $this->rateLimitService = $rateLimitService;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -54,10 +60,14 @@ class ImageConvertController extends Controller
             try {
                 $result = $this->conversionService->convert($file, $targetFormat, $quality);
                 
+                // Get country from IP
+                $country = $this->locationService->getCountryFromIp($ipAddress);
+                
                 // Save to database
                 $image = Image::create([
                     'user_id' => $user ? $user->id : null,
                     'ip_address' => $ipAddress,
+                    'country' => $country,
                     'original_filename' => $file->getClientOriginalName(),
                     'original_path' => $result['original_path'],
                     'processed_path' => $result['processed_path'],

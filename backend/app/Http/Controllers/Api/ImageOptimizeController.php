@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Image;
 use App\Services\ImageOptimizationService;
 use App\Services\RateLimitService;
+use App\Services\LocationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
@@ -14,11 +15,16 @@ class ImageOptimizeController extends Controller
 {
     protected $optimizationService;
     protected $rateLimitService;
+    protected $locationService;
 
-    public function __construct(ImageOptimizationService $optimizationService, RateLimitService $rateLimitService)
-    {
+    public function __construct(
+        ImageOptimizationService $optimizationService,
+        RateLimitService $rateLimitService,
+        LocationService $locationService
+    ) {
         $this->optimizationService = $optimizationService;
         $this->rateLimitService = $rateLimitService;
+        $this->locationService = $locationService;
     }
 
     /**
@@ -53,10 +59,14 @@ class ImageOptimizeController extends Controller
             try {
                 $result = $this->optimizationService->optimize($file, $quality);
                 
+                // Get country from IP
+                $country = $this->locationService->getCountryFromIp($ipAddress);
+                
                 // Save to database
                 $image = Image::create([
                     'user_id' => $user?->id,
                     'ip_address' => $ipAddress,
+                    'country' => $country,
                     'original_filename' => $file->getClientOriginalName(),
                     'original_path' => $result['original_path'],
                     'processed_path' => $result['processed_path'],
