@@ -29,7 +29,7 @@ class ImageOptimizeController extends Controller
         $request->validate([
             'images' => 'required|array|min:1',
             'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.max_file_size'),
-            'quality' => 'nullable|integer|min:1|max:100',
+            'quality' => 'nullable|integer|min:60|max:100',
         ]);
 
         $ipAddress = $request->ip();
@@ -69,7 +69,8 @@ class ImageOptimizeController extends Controller
                 ]);
 
                 $compressionRatio = $result['compression_ratio'];
-                $alreadyOptimized = $compressionRatio <= 1; // Less than or equal to 1% savings
+                $usedOriginal = $result['used_original'] ?? false;
+                $alreadyOptimized = $usedOriginal || $compressionRatio <= 1; // Original used or less than 1% savings
                 
                 $results[] = [
                     'id' => $image->id,
@@ -78,6 +79,7 @@ class ImageOptimizeController extends Controller
                     'optimized_size' => $result['processed_size'],
                     'compression_ratio' => $compressionRatio,
                     'already_optimized' => $alreadyOptimized,
+                    'used_original' => $usedOriginal,
                     'download_url' => url('/api/download/' . $image->id),
                 ];
             } catch (\Exception $e) {

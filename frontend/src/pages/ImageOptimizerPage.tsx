@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import { Container, Typography, Box, Button, Paper, Alert, LinearProgress } from '@mui/material'
+import { Container, Typography, Box, Button, Paper, Alert, LinearProgress, Slider, Tooltip, IconButton } from '@mui/material'
+import InfoIcon from '@mui/icons-material/Info'
 import api from '../services/api'
 import DragDropUploader from '../components/DragDropUploader'
 import Footer from '../components/Footer'
@@ -11,6 +12,7 @@ function ImageOptimizerPage() {
     const [loading, setLoading] = useState(false)
     const [results, setResults] = useState<any[]>([])
     const [error, setError] = useState('')
+    const [quality, setQuality] = useState(85)
 
     const handleFilesSelected = (selectedFiles: File[]) => {
         setFiles(selectedFiles)
@@ -30,7 +32,7 @@ function ImageOptimizerPage() {
         files.forEach(file => {
             formData.append('images[]', file)
         })
-        formData.append('quality', '85')
+        formData.append('quality', quality.toString())
 
         try {
             const response = await api.post('/optimize', formData, {
@@ -78,6 +80,43 @@ function ImageOptimizerPage() {
 
                         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 
+                        {/* Quality Slider */}
+                        <Box sx={{ mb: 3, px: 1 }}>
+                            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                                <Typography variant="subtitle1" fontWeight="bold">
+                                    Optimization Quality: {quality}%
+                                </Typography>
+                                <Tooltip title="Higher quality preserves more detail but results in larger files. Lower quality reduces file size more but may affect image quality. For already-optimized images, the original will be kept if optimization would increase size.">
+                                    <IconButton size="small" sx={{ ml: 1 }}>
+                                        <InfoIcon fontSize="small" />
+                                    </IconButton>
+                                </Tooltip>
+                            </Box>
+                            <Slider
+                                value={quality}
+                                onChange={(_, value) => setQuality(value as number)}
+                                min={60}
+                                max={100}
+                                step={5}
+                                marks={[
+                                    { value: 60, label: '60%' },
+                                    { value: 75, label: '75%' },
+                                    { value: 85, label: '85%' },
+                                    { value: 100, label: '100%' }
+                                ]}
+                                disabled={loading}
+                                sx={{ mt: 1 }}
+                            />
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 1 }}>
+                                <Typography variant="caption" color="text.secondary">
+                                    Smaller file size
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                    Higher quality
+                                </Typography>
+                            </Box>
+                        </Box>
+
                         <Button
                             variant="contained"
                             fullWidth
@@ -109,9 +148,15 @@ function ImageOptimizerPage() {
                                                 <Typography>
                                                     Size: {(result.original_size / 1024).toFixed(2)} KB → {(result.optimized_size / 1024).toFixed(2)} KB
                                                 </Typography>
-                                                <Typography color="success.main">
-                                                    Saved: {result.compression_ratio}%
-                                                </Typography>
+                                                {result.used_original ? (
+                                                    <Typography color="info.main" sx={{ fontStyle: 'italic' }}>
+                                                        ✓ Original kept (already optimized)
+                                                    </Typography>
+                                                ) : (
+                                                    <Typography color="success.main">
+                                                        Saved: {result.compression_ratio}%
+                                                    </Typography>
+                                                )}
                                                 <Button
                                                     variant="contained"
                                                     size="small"
