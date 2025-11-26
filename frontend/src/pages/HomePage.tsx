@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import ImageIcon from '@mui/icons-material/Image'
 import CompressIcon from '@mui/icons-material/Compress'
 import TransformIcon from '@mui/icons-material/Transform'
+import ContentCutIcon from '@mui/icons-material/ContentCut'
 import Footer from '../components/Footer'
 import FAQSection from '../components/FAQSection'
 import HowItWorks from '../components/HowItWorks'
@@ -64,7 +65,7 @@ function HomePage() {
 
                 {/* Features */}
                 <Grid container spacing={4}>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6} lg={3}>
                         <Card sx={{ height: '100%', transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)' } }}>
                             <CardContent sx={{ textAlign: 'center', p: 4 }}>
                                 <CompressIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
@@ -78,7 +79,7 @@ function HomePage() {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6} lg={3}>
                         <Card sx={{ height: '100%', transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)' } }}>
                             <CardContent sx={{ textAlign: 'center', p: 4 }}>
                                 <TransformIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
@@ -92,7 +93,21 @@ function HomePage() {
                             </CardContent>
                         </Card>
                     </Grid>
-                    <Grid item xs={12} md={4}>
+                    <Grid item xs={12} md={6} lg={3}>
+                        <Card sx={{ height: '100%', transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)' } }}>
+                            <CardContent sx={{ textAlign: 'center', p: 4 }}>
+                                <ContentCutIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />
+                                <Typography variant="h6" gutterBottom fontWeight="bold">
+                                    AI Background Remover
+                                </Typography>
+                                <Typography color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                                    Remove backgrounds from images automatically using advanced AI technology. Get professional transparent PNG files in seconds.
+                                    Perfect for product photos, portraits, and e-commerce images. No manual editing required.
+                                </Typography>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={3}>
                         <Card sx={{ height: '100%', transition: 'transform 0.2s', '&:hover': { transform: 'translateY(-4px)' } }}>
                             <CardContent sx={{ textAlign: 'center', p: 4 }}>
                                 <ImageIcon sx={{ fontSize: 48, color: 'primary.main', mb: 2 }} />

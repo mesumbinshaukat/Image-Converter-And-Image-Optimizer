@@ -23,6 +23,7 @@ import TransformIcon from '@mui/icons-material/Transform';
 import LoginIcon from '@mui/icons-material/Login';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import LogoutIcon from '@mui/icons-material/Logout';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import FacebookIcon from '@mui/icons-material/Facebook';
@@ -46,6 +47,7 @@ export default function NavBar() {
         { label: 'Home', to: '/', icon: <HomeIcon /> },
         { label: 'Optimize', to: '/optimize', icon: <CompressIcon /> },
         { label: 'Convert', to: '/convert', icon: <TransformIcon /> },
+        { label: 'Remove BG', to: '/remove-background', icon: <ContentCutIcon /> },
     ];
 
     const authItems = isAuthenticated ? [

@@ -20,6 +20,9 @@ class Image extends Model
         'original_size',
         'processed_size',
         'operation',
+        'processing_time',
+        'success',
+        'error_message',
         'expires_at',
     ];
 

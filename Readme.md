@@ -1,13 +1,3 @@
-# Imgify - Image Optimizer & Converter
-
-![Imgify Logo](https://via.placeholder.com/800x200/6366f1/ffffff?text=Imgify+-+Image+Optimizer+%26+Converter)
-
-**Imgify** is a professional web application for optimizing and converting images online. Built with Laravel and React, it provides high-quality image compression and format conversion with a user-friendly interface.
-
-## 🌟 Features
-
-### Image Optimization
-- **Lossless Compression**: Reduce image file size by up to 80% without visible quality loss
 - **Metadata Removal**: Automatically strip EXIF, IPTC, and XMP data for privacy and size reduction
 - **Format Support**: JPG, PNG, WebP, GIF, BMP
 - **Batch Processing**: Process multiple images simultaneously
@@ -16,6 +6,14 @@
 - **Multi-Format Support**: Convert between JPG, PNG, WebP, GIF, BMP, SVG
 - **Quality Preservation**: Maintain image quality during format conversion
 - **Batch Conversion**: Convert multiple images at once
+
+### AI Background Removal
+- **One-Click Removal**: Automatically remove backgrounds using advanced AI technology
+- **Client-Side Processing**: Zero server costs, instant results, privacy-first approach
+- **Professional Quality**: Preserve subject details including hair and fur edges
+- **Batch Processing**: Remove backgrounds from multiple images simultaneously
+- **Transparent PNG Export**: Download images with transparent backgrounds
+- **Progress Tracking**: Beautiful modal with step-by-step progress indicators
 
 ### User Management
 - **Guest Access**: 5 images per batch, 20 images per day
@@ -51,6 +49,7 @@
 - **State Management**: Redux Toolkit
 - **Routing**: React Router v6
 - **HTTP Client**: Axios
+- **AI Background Removal**: @imgly/background-removal (ONNX Runtime Web)
 
 ## 📋 Prerequisites
 
@@ -222,7 +221,11 @@ Use the images in the `Testing-Images` folder to test:
 ### Image Processing
 - `POST /api/optimize` - Optimize images
 - `POST /api/convert` - Convert image formats
+- `POST /api/remove-background` - Remove image backgrounds (client-side with analytics tracking)
 - `GET /api/download/{id}` - Download processed image
+
+### Analytics
+- `POST /api/analytics/background-removal` - Track background removal operations
 
 ### Admin
 - `GET /api/admin/users` - List all users
@@ -298,6 +301,15 @@ For support, email: mesum@worldoftech.company
 
 ## 🎯 Roadmap
 
+### Completed ✅
+- [x] AI-powered background removal
+- [x] Client-side image processing
+- [x] Processing progress tracking with beautiful modal
+- [x] Analytics tracking for background removal
+
+### Planned 🚀
+- [ ] Manual brush refinement tools for background removal
+- [ ] Server-side background removal fallback option
 - [ ] Mobile app (iOS/Android)
 - [ ] API for third-party integrations
 - [ ] Advanced image editing features

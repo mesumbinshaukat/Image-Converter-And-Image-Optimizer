@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ImageConvertController;
 use App\Http\Controllers\Api\AdminController;
 use App\Http\Controllers\Api\ImageDownloadController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\AnalyticsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +31,7 @@ Route::get('/download/{id}', [ImageDownloadController::class, 'download']);
 // Analytics tracking (public - no auth required)
 Route::post('/analytics/page-view', [AdminController::class, 'trackPageView']);
 Route::post('/analytics/page-exit', [AdminController::class, 'trackPageExit']);
+Route::post('/analytics/background-removal', [AnalyticsController::class, 'trackBackgroundRemoval']);
 
 // Authenticated routes
 Route::middleware('auth:sanctum')->group(function () {

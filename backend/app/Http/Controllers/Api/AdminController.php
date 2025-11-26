@@ -94,6 +94,21 @@ class AdminController extends Controller
                 'total_conversions' => Image::where('operation', 'convert')
                     ->where('created_at', '>=', $startDate)
                     ->count(),
+                'total_background_removals' => Image::where('operation', 'background_removal')
+                    ->where('created_at', '>=', $startDate)
+                    ->count(),
+                'successful_background_removals' => Image::where('operation', 'background_removal')
+                    ->where('success', true)
+                    ->where('created_at', '>=', $startDate)
+                    ->count(),
+                'failed_background_removals' => Image::where('operation', 'background_removal')
+                    ->where('success', false)
+                    ->where('created_at', '>=', $startDate)
+                    ->count(),
+                'avg_processing_time' => round(Image::where('operation', 'background_removal')
+                    ->where('created_at', '>=', $startDate)
+                    ->whereNotNull('processing_time')
+                    ->avg('processing_time'), 2),
                 'total_storage_saved' => $storageSaved,
                 // Add traffic summary data
                 'page_views_today' => $trafficSummary['page_views_today'] ?? 0,
@@ -109,7 +124,8 @@ class AdminController extends Controller
                         DB::raw('DATE(created_at) as date'),
                         DB::raw('COUNT(*) as count'),
                         DB::raw('SUM(CASE WHEN operation = "optimize" THEN 1 ELSE 0 END) as optimizations'),
-                        DB::raw('SUM(CASE WHEN operation = "convert" THEN 1 ELSE 0 END) as conversions')
+                        DB::raw('SUM(CASE WHEN operation = "convert" THEN 1 ELSE 0 END) as conversions'),
+                        DB::raw('SUM(CASE WHEN operation = "background_removal" THEN 1 ELSE 0 END) as background_removals')
                     )
                     ->groupBy('date')
                     ->orderBy('date')

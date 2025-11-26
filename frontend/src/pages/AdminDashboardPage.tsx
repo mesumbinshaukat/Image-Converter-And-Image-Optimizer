@@ -29,6 +29,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import ImageIcon from '@mui/icons-material/Image';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import ContentCutIcon from '@mui/icons-material/ContentCut';
 import api from '../services/api';
 import { usePageTracking } from '../hooks/usePageTracking';
 
@@ -303,6 +304,27 @@ export default function AdminDashboardPage() {
                             </CardContent>
                         </Card>
                     </Grid>
+
+                    <Grid item xs={12} sm={6} md={3}>
+                        <Card>
+                            <CardContent>
+                                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Box>
+                                        <Typography color="text.secondary" variant="body2" gutterBottom>
+                                            Background Removals
+                                        </Typography>
+                                        <Typography variant="h4" fontWeight="bold">
+                                            {analytics?.total_background_removals || 0}
+                                        </Typography>
+                                        <Typography variant="caption" color="success.main">
+                                            {analytics?.successful_background_removals || 0} successful
+                                        </Typography>
+                                    </Box>
+                                    <ContentCutIcon sx={{ fontSize: 48, color: 'secondary.main' }} />
+                                </Box>
+                            </CardContent>
+                        </Card>
+                    </Grid>
                 </Grid>
 
                 {/* Filters Section */}
@@ -377,6 +399,7 @@ export default function AdminDashboardPage() {
                         <Tab label="Activity Logs" />
                         <Tab label="Contact Submissions" />
                         <Tab label="Page Traffic" />
+                        <Tab label="Background Removal Stats" />
                         <Tab label="Real-time Activity" />
                     </Tabs>
                 </Paper>
@@ -607,8 +630,93 @@ export default function AdminDashboardPage() {
                     </Grid>
                 </TabPanel>
 
-                {/* Real-time Activity Tab */}
+                {/* Background Removal Stats Tab */}
                 <TabPanel value={tabValue} index={4}>
+                    <Grid container spacing={3} sx={{ mb: 3 }}>
+                        <Grid item xs={12} md={4}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        Total Operations
+                                    </Typography>
+                                    <Typography variant="h3" fontWeight="bold" color="primary.main">
+                                        {analytics?.total_background_removals || 0}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                        Background removals processed
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        Success Rate
+                                    </Typography>
+                                    <Typography variant="h3" fontWeight="bold" color="success.main">
+                                        {analytics?.total_background_removals > 0
+                                            ? Math.round((analytics.successful_background_removals / analytics.total_background_removals) * 100)
+                                            : 0}%
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                        {analytics?.successful_background_removals || 0} successful / {analytics?.failed_background_removals || 0} failed
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                        <Grid item xs={12} md={4}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6" gutterBottom>
+                                        Avg Processing Time
+                                    </Typography>
+                                    <Typography variant="h3" fontWeight="bold" color="info.main">
+                                        {analytics?.avg_processing_time ? `${analytics.avg_processing_time}s` : 'N/A'}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                                        Average time per image
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    </Grid>
+
+                    <Card>
+                        <CardContent>
+                            <Typography variant="h6" gutterBottom>
+                                Performance Insights
+                            </Typography>
+                            <Box sx={{ mt: 2 }}>
+                                <Grid container spacing={2}>
+                                    <Grid item xs={12} sm={6}>
+                                        <Box sx={{ p: 2, bgcolor: 'success.light', borderRadius: 1 }}>
+                                            <Typography variant="body2" color="success.dark" fontWeight="bold">
+                                                ✓ Successful Operations
+                                            </Typography>
+                                            <Typography variant="h5" color="success.dark" sx={{ mt: 1 }}>
+                                                {analytics?.successful_background_removals || 0}
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <Box sx={{ p: 2, bgcolor: 'error.light', borderRadius: 1 }}>
+                                            <Typography variant="body2" color="error.dark" fontWeight="bold">
+                                                ✗ Failed Operations
+                                            </Typography>
+                                            <Typography variant="h5" color="error.dark" sx={{ mt: 1 }}>
+                                                {analytics?.failed_background_removals || 0}
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </CardContent>
+                    </Card>
+                </TabPanel>
+
+                {/* Real-time Activity Tab */}
+                <TabPanel value={tabValue} index={5}>
                     <Box sx={{ mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                         <Typography variant="h6">
                             Live Activity Feed

@@ -35,6 +35,12 @@ const routes = [
         priority: '0.9'
     },
     {
+        comment: 'Image Background Remover',
+        loc: 'https://imgify.worldoftech.company/remove-background',
+        changefreq: 'weekly',
+        priority: '0.9'
+    },
+    {
         comment: 'Login',
         loc: 'https://imgify.worldoftech.company/login',
         changefreq: 'monthly',

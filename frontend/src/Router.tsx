@@ -3,6 +3,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage';
 import HomePage from './pages/HomePage';
 import ImageOptimizerPage from './pages/ImageOptimizerPage';
 import ImageConverterPage from './pages/ImageConverterPage';
+import BackgroundRemovalPage from './pages/BackgroundRemovalPage';
 import LoginPage from './pages/LoginPage';
 import ContactPage from './pages/ContactPage';
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage';
@@ -18,6 +19,7 @@ function Router() {
             <Route path="/" element={<HomePage />} />
             <Route path="/optimize" element={<ImageOptimizerPage />} />
             <Route path="/convert" element={<ImageConverterPage />} />
+            <Route path="/remove-background" element={<BackgroundRemovalPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/admin-access" element={<LoginPage />} />
             <Route path="/admin-dashboard" element={

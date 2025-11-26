@@ -34,6 +34,7 @@ export default function Footer() {
         { label: 'Home', path: '/' },
         { label: 'Optimize Images', path: '/optimize' },
         { label: 'Convert Images', path: '/convert' },
+        { label: 'Remove Background', path: '/remove-background' },
         { label: 'Contact Us', path: '/contact' },
     ];
 
@@ -130,6 +131,9 @@ export default function Footer() {
                                 Features
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
+                                ✓ AI background removal
+                            </Typography>
+                            <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
                                 ✓ Up to 80% compression
                             </Typography>
                             <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', mb: 1 }}>
@@ -201,8 +205,8 @@ export default function Footer() {
                 {/* SEO Content */}
                 <Box sx={{ mt: 4, pt: 3, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
                     <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontSize: '0.75rem' }}>
-                        <strong>Imgify</strong> - Free online image optimizer and converter. Compress JPG, PNG, WebP, GIF images without quality loss.
-                        Convert between image formats instantly. Professional image optimization tool for web developers, designers, and content creators.
+                        <strong>Imgify</strong> - Free online image optimizer, converter, and AI background remover. Compress JPG, PNG, WebP, GIF images without quality loss.
+                        Convert between image formats instantly. Remove backgrounds with AI technology. Professional image optimization tool for web developers, designers, and content creators.
                         Reduce image file size, improve website speed, and enhance SEO with our powerful image compression technology.
                         Supports batch processing, maintains image quality, and provides instant downloads. No registration required for basic features.
                     </Typography>
