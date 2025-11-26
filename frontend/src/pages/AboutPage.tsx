@@ -1,6 +1,19 @@
 import { Container, Typography, Box, Grid, Card, CardContent, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import RocketLaunchIcon from '@mui/icons-material/RocketLaunch';
+import SpeedIcon from '@mui/icons-material/Speed';
+import SecurityIcon from '@mui/icons-material/Security';
+import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
+import PublicIcon from '@mui/icons-material/Public';
+import PsychologyIcon from '@mui/icons-material/Psychology';
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import CompareIcon from '@mui/icons-material/Compare';
+import CollectionsIcon from '@mui/icons-material/Collections';
+import LockIcon from '@mui/icons-material/Lock';
+import HandshakeIcon from '@mui/icons-material/Handshake';
+import LightbulbIcon from '@mui/icons-material/Lightbulb';
+import RecyclingIcon from '@mui/icons-material/Recycling';
+import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
 import Footer from '../components/Footer'
 
 export default function AboutPage() {
@@ -40,98 +53,81 @@ export default function AboutPage() {
 
                 {/* Core Mission & Features Grid */}
                 <Grid container spacing={{ xs: 3, md: 4 }} sx={{ mb: { xs: 6, md: 10 } }}>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                height: '100%',
-                                bgcolor: 'background.paper',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                                    transform: 'translateY(-4px)'
-                                }
-                            }}
-                        >
-                            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                                <Typography variant="h5" gutterBottom fontWeight="bold" color="primary" sx={{ mb: 2 }}>
-                                    Core Mission
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                                    Imgify provides a simple, free platform for optimizing and converting images online, helping users reduce file sizes without losing quality to improve website speed and performance.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                height: '100%',
-                                bgcolor: 'background.paper',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                                    transform: 'translateY(-4px)'
-                                }
-                            }}
-                        >
-                            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                                <Typography variant="h5" gutterBottom fontWeight="bold" color="secondary" sx={{ mb: 2 }}>
-                                    Key Features
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                                    Supports multiple formats like PNG, JPG, WebP, and AVIF; offers lossless and lossy compression options; no watermarks or limits on usage.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                height: '100%',
-                                bgcolor: 'background.paper',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                                    transform: 'translateY(-4px)'
-                                }
-                            }}
-                        >
-                            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                                <Typography variant="h5" gutterBottom fontWeight="bold" color="success.main" sx={{ mb: 2 }}>
-                                    User Benefits
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                                    Ideal for bloggers, web developers, and marketers seeking quick tools to enhance SEO through faster loading times, with evidence suggesting optimized images can boost site rankings by improving user experience.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Card
-                            sx={{
-                                height: '100%',
-                                bgcolor: 'background.paper',
-                                boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
-                                transition: 'all 0.3s ease',
-                                '&:hover': {
-                                    boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
-                                    transform: 'translateY(-4px)'
-                                }
-                            }}
-                        >
-                            <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                                <Typography variant="h5" gutterBottom fontWeight="bold" color="warning.main" sx={{ mb: 2 }}>
-                                    Commitment to Quality
-                                </Typography>
-                                <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                                    We prioritize user-friendly design and privacy, ensuring your images are processed securely and deleted after use.
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
+                    {[
+                        {
+                            title: 'Core Mission',
+                            desc: 'Imgify provides a simple, free platform for optimizing and converting images online, helping users reduce file sizes without losing quality to improve website speed and performance.',
+                            icon: <RocketLaunchIcon sx={{ fontSize: 40, color: 'white' }} />
+                        },
+                        {
+                            title: 'Key Features',
+                            desc: 'Supports multiple formats like PNG, JPG, WebP, and AVIF; offers lossless and lossy compression options; no watermarks or limits on usage.',
+                            icon: <SpeedIcon sx={{ fontSize: 40, color: 'white' }} />
+                        },
+                        {
+                            title: 'User Benefits',
+                            desc: 'Ideal for bloggers, web developers, and marketers seeking quick tools to enhance SEO through faster loading times, with evidence suggesting optimized images can boost site rankings by improving user experience.',
+                            icon: <EmojiObjectsIcon sx={{ fontSize: 40, color: 'white' }} />
+                        },
+                        {
+                            title: 'Commitment to Quality',
+                            desc: 'We prioritize user-friendly design and privacy, ensuring your images are processed securely and deleted after use.',
+                            icon: <SecurityIcon sx={{ fontSize: 40, color: 'white' }} />
+                        }
+                    ].map((item, index) => (
+                        <Grid item xs={12} md={6} key={index}>
+                            <Card
+                                sx={{
+                                    height: '100%',
+                                    bgcolor: 'background.paper',
+                                    borderRadius: 4,
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    boxShadow: '0 4px 20px rgba(0,0,0,0.05)',
+                                    transition: 'all 0.3s ease',
+                                    overflow: 'hidden',
+                                    position: 'relative',
+                                    '&:hover': {
+                                        boxShadow: '0 12px 40px rgba(139, 92, 246, 0.15)',
+                                        transform: 'translateY(-5px)',
+                                        borderColor: 'primary.main',
+                                        '& .icon-box': {
+                                            transform: 'scale(1.1) rotate(5deg)',
+                                            bgcolor: 'primary.light',
+                                            color: 'white'
+                                        }
+                                    }
+                                }}
+                            >
+                                <CardContent sx={{ p: { xs: 3, md: 4 } }}>
+                                    <Box
+                                        className="icon-box"
+                                        sx={{
+                                            width: 70,
+                                            height: 70,
+                                            borderRadius: '20px',
+                                            bgcolor: 'primary.main',
+                                            color: 'white',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            mb: 3,
+                                            transition: 'all 0.3s ease',
+                                            boxShadow: '0 8px 20px rgba(139, 92, 246, 0.3)'
+                                        }}
+                                    >
+                                        {item.icon}
+                                    </Box>
+                                    <Typography variant="h5" gutterBottom fontWeight="800" color="text.primary" sx={{ mb: 2 }}>
+                                        {item.title}
+                                    </Typography>
+                                    <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                                        {item.desc}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
                 </Grid>
 
                 {/* Our Story Section */}
@@ -171,12 +167,12 @@ export default function AboutPage() {
 
                 {/* Our Values */}
                 <Box sx={{ mb: { xs: 6, md: 10 } }}>
-                    <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ mb: 4 }}>Our Values</Typography>
+                    <Typography variant="h4" gutterBottom fontWeight="bold" sx={{ mb: 4, textAlign: 'center' }}>Our Values</Typography>
                     <Grid container spacing={{ xs: 2, md: 3 }}>
                         {[
-                            { title: 'Innovation', desc: 'Constantly updating our converter and optimizer to support emerging formats like AVIF.' },
-                            { title: 'Accessibility', desc: 'Free for all users, with intuitive interfaces for beginners and pros alike.' },
-                            { title: 'Sustainability', desc: 'By reducing file sizes, we help lower data usage and server loads, contributing to a greener web.' }
+                            { title: 'Innovation', desc: 'Constantly updating our converter and optimizer to support emerging formats like AVIF.', icon: <LightbulbIcon color="primary" fontSize="large" /> },
+                            { title: 'Accessibility', desc: 'Free for all users, with intuitive interfaces for beginners and pros alike.', icon: <PublicIcon color="primary" fontSize="large" /> },
+                            { title: 'Sustainability', desc: 'By reducing file sizes, we help lower data usage and server loads, contributing to a greener web.', icon: <RecyclingIcon color="primary" fontSize="large" /> }
                         ].map((value) => (
                             <Grid item xs={12} md={4} key={value.title}>
                                 <Paper
@@ -185,16 +181,20 @@ export default function AboutPage() {
                                         p: { xs: 3, md: 4 },
                                         height: '100%',
                                         bgcolor: 'background.paper',
-                                        borderRadius: 2,
-                                        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                                        borderRadius: 3,
+                                        border: '1px solid',
+                                        borderColor: 'divider',
+                                        boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
                                         transition: 'all 0.3s ease',
                                         '&:hover': {
-                                            boxShadow: '0 6px 24px rgba(0,0,0,0.1)',
-                                            transform: 'translateY(-2px)'
+                                            boxShadow: '0 8px 24px rgba(139, 92, 246, 0.12)',
+                                            transform: 'translateY(-4px)',
+                                            borderColor: 'primary.light'
                                         }
                                     }}
                                 >
-                                    <Typography variant="h6" gutterBottom fontWeight="bold" color="primary" sx={{ mb: 2 }}>{value.title}</Typography>
+                                    <Box sx={{ mb: 2 }}>{value.icon}</Box>
+                                    <Typography variant="h6" gutterBottom fontWeight="bold" color="text.primary" sx={{ mb: 2 }}>{value.title}</Typography>
                                     <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.7 }}>{value.desc}</Typography>
                                 </Paper>
                             </Grid>
@@ -325,14 +325,14 @@ export default function AboutPage() {
                 </Paper>
 
                 <Box sx={{ mb: { xs: 6, md: 10 } }}>
-                    <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ mb: 4 }}>Core Features and How We Optimize for You</Typography>
-                    <Typography variant="body1" paragraph color="text.secondary" sx={{ mb: 4, lineHeight: 1.8 }}>Imgify isn't just about compression—it's a comprehensive suite for image management:</Typography>
+                    <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ mb: 4, textAlign: 'center' }}>Core Features and How We Optimize for You</Typography>
+                    <Typography variant="body1" paragraph color="text.secondary" sx={{ mb: 4, lineHeight: 1.8, textAlign: 'center', maxWidth: '800px', mx: 'auto' }}>Imgify isn't just about compression—it's a comprehensive suite for image management:</Typography>
                     <Grid container spacing={{ xs: 2, md: 3 }}>
                         {[
-                            { title: 'Image Optimizer', desc: 'Compress JPEG, PNG, GIF, and more online for free, with options for lossy or lossless modes to suit your needs.' },
-                            { title: 'Image Converter', desc: 'Seamlessly switch between formats like PNG to JPG or to WebP, enhancing compatibility for modern browsers.' },
-                            { title: 'Batch Processing', desc: 'Handle multiple files at once, ideal for web designers optimizing entire galleries.' },
-                            { title: 'Privacy-Focused', desc: 'All uploads are processed in real-time and deleted immediately after, with no data storage.' }
+                            { title: 'Image Optimizer', desc: 'Compress JPEG, PNG, GIF, and more online for free, with options for lossy or lossless modes to suit your needs.', icon: <AutoFixHighIcon color="primary" /> },
+                            { title: 'Image Converter', desc: 'Seamlessly switch between formats like PNG to JPG or to WebP, enhancing compatibility for modern browsers.', icon: <CompareIcon color="primary" /> },
+                            { title: 'Batch Processing', desc: 'Handle multiple files at once, ideal for web designers optimizing entire galleries.', icon: <CollectionsIcon color="primary" /> },
+                            { title: 'Privacy-Focused', desc: 'All uploads are processed in real-time and deleted immediately after, with no data storage.', icon: <LockIcon color="primary" /> }
                         ].map((feature) => (
                             <Grid item xs={12} sm={6} key={feature.title}>
                                 <Paper
@@ -341,16 +341,22 @@ export default function AboutPage() {
                                         p: 3,
                                         height: '100%',
                                         bgcolor: 'background.paper',
-                                        borderRadius: 2,
-                                        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                                        borderRadius: 3,
+                                        boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
                                         transition: 'all 0.3s ease',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
                                         '&:hover': {
-                                            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                                            boxShadow: '0 4px 20px rgba(139, 92, 246, 0.1)',
+                                            borderColor: 'primary.main',
+                                            transform: 'translateY(-2px)'
                                         }
                                     }}
                                 >
                                     <Box sx={{ display: 'flex', gap: 2, alignItems: 'flex-start' }}>
-                                        <CheckCircleIcon color="success" sx={{ mt: 0.5, fontSize: 28 }} />
+                                        <Box sx={{ p: 1, borderRadius: 2, bgcolor: 'primary.50', color: 'primary.main' }}>
+                                            {feature.icon}
+                                        </Box>
                                         <Box>
                                             <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>{feature.title}</Typography>
                                             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>{feature.desc}</Typography>
@@ -363,13 +369,13 @@ export default function AboutPage() {
                 </Box>
 
                 <Box sx={{ mb: { xs: 6, md: 10 } }}>
-                    <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ mb: 4 }}>Values That Drive Us</Typography>
+                    <Typography variant="h5" gutterBottom fontWeight="bold" sx={{ mb: 4, textAlign: 'center' }}>Values That Drive Us</Typography>
                     <Grid container spacing={{ xs: 2, md: 3 }}>
                         {[
-                            { title: 'Accessibility and Inclusivity', desc: 'As a free tool, Imgify removes barriers, supporting users globally regardless of technical expertise.' },
-                            { title: 'Innovation Through AI', desc: 'Leveraging AI for smarter compression, we stay ahead of trends, ensuring our service evolves with user demands.' },
-                            { title: 'Sustainability', desc: 'Smaller files mean less energy consumption in data transfers, aligning with eco-friendly web practices.' },
-                            { title: 'User Trust', desc: 'Transparent policies on privacy and terms, building long-term relationships.' }
+                            { title: 'Accessibility and Inclusivity', desc: 'As a free tool, Imgify removes barriers, supporting users globally regardless of technical expertise.', icon: <HandshakeIcon /> },
+                            { title: 'Innovation Through AI', desc: 'Leveraging AI for smarter compression, we stay ahead of trends, ensuring our service evolves with user demands.', icon: <PsychologyIcon /> },
+                            { title: 'Sustainability', desc: 'Smaller files mean less energy consumption in data transfers, aligning with eco-friendly web practices.', icon: <RecyclingIcon /> },
+                            { title: 'User Trust', desc: 'Transparent policies on privacy and terms, building long-term relationships.', icon: <VerifiedUserIcon /> }
                         ].map((value) => (
                             <Grid item xs={12} sm={6} key={value.title}>
                                 <Paper
@@ -377,16 +383,25 @@ export default function AboutPage() {
                                     sx={{
                                         p: { xs: 2.5, md: 3 },
                                         bgcolor: 'background.paper',
-                                        borderRadius: 2,
-                                        boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
+                                        borderRadius: 3,
+                                        boxShadow: '0 2px 12px rgba(0,0,0,0.04)',
                                         height: '100%',
                                         transition: 'all 0.3s ease',
+                                        border: '1px solid',
+                                        borderColor: 'divider',
                                         '&:hover': {
-                                            boxShadow: '0 4px 16px rgba(0,0,0,0.1)',
+                                            boxShadow: '0 6px 20px rgba(139, 92, 246, 0.1)',
+                                            borderColor: 'primary.main',
+                                            '& .value-icon': { color: 'primary.main' }
                                         }
                                     }}
                                 >
-                                    <Typography variant="subtitle1" fontWeight="bold" color="primary" sx={{ mb: 1.5 }}>{value.title}</Typography>
+                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, gap: 1 }}>
+                                        <Box className="value-icon" sx={{ color: 'text.secondary', transition: 'color 0.3s' }}>
+                                            {value.icon}
+                                        </Box>
+                                        <Typography variant="subtitle1" fontWeight="bold" color="text.primary">{value.title}</Typography>
+                                    </Box>
                                     <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>{value.desc}</Typography>
                                 </Paper>
                             </Grid>
@@ -419,50 +434,65 @@ export default function AboutPage() {
                     <Typography variant="body1" paragraph color="text.secondary" sx={{ mb: 4, lineHeight: 1.8 }}>
                         To highlight how Imgify aligns with SEO and AISEO best practices, here's a breakdown:
                     </Typography>
-                    <TableContainer
-                        component={Paper}
-                        elevation={0}
+                    <Box
                         sx={{
-                            border: '1px solid rgba(0,0,0,0.08)',
-                            borderRadius: 2,
-                            boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
-                            overflow: 'hidden'
+                            position: 'relative',
+                            p: '2px', // Width of the border
+                            borderRadius: 3,
+                            background: 'linear-gradient(135deg, #8B5CF6 0%, #EC4899 100%)',
+                            boxShadow: '0 4px 20px rgba(139, 92, 246, 0.15)',
+                            transition: 'all 0.3s ease',
+                            '&:hover': {
+                                boxShadow: '0 8px 30px rgba(139, 92, 246, 0.25)',
+                                transform: 'translateY(-2px)'
+                            }
                         }}
                     >
-                        <Table sx={{ minWidth: { xs: 300, sm: 650 } }}>
-                            <TableHead sx={{ bgcolor: 'rgba(139, 92, 246, 0.06)' }}>
-                                <TableRow>
-                                    <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' } }}>Aspect</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' } }}>Description</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' } }}>Benefit for Users</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' } }}>SEO/AISEO Impact</TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {[
-                                    { aspect: 'Keyword Integration', desc: 'Natural use of terms like "free online image optimizer" in headings and text.', benefit: 'Easier discovery via search queries.', impact: 'Improves rankings; AI tools favor semantic relevance.' },
-                                    { aspect: 'Content Structure', desc: 'Headings (H2, H3), lists, and tables for readability.', benefit: 'Enhances user engagement.', impact: 'Boosts crawlability and scannability for search engines.' },
-                                    { aspect: 'Length and Depth', desc: '800+ words with detailed sections.', benefit: 'Provides comprehensive value.', impact: 'Signals authority to algorithms; ideal for 300-500+ word pages.' },
-                                    { aspect: 'Visuals and Media', desc: 'Recommendations for images/examples (e.g., compression demos).', benefit: 'Builds trust visually.', impact: 'Supports multimedia SEO; AI optimizers like quotes/data.' },
-                                    { aspect: 'Calls to Action', desc: 'Links to homepage, contact, and tools.', benefit: 'Drives conversions.', impact: 'Encourages internal linking for better site flow.' },
-                                    { aspect: 'Trust Signals', desc: 'Mission, values, privacy mentions.', benefit: 'Fosters credibility.', impact: 'Enhances E-A-T (Expertise, Authoritativeness, Trustworthiness).' },
-                                ].map((row, index) => (
-                                    <TableRow
-                                        key={row.aspect}
-                                        sx={{
-                                            '&:nth-of-type(odd)': { bgcolor: 'rgba(0,0,0,0.02)' },
-                                            '&:hover': { bgcolor: 'rgba(139, 92, 246, 0.04)' }
-                                        }}
-                                    >
-                                        <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.aspect}</TableCell>
-                                        <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.desc}</TableCell>
-                                        <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.benefit}</TableCell>
-                                        <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.impact}</TableCell>
+                        <TableContainer
+                            component={Paper}
+                            elevation={0}
+                            sx={{
+                                borderRadius: 2.5, // Slightly less than outer to fit
+                                overflow: 'hidden',
+                                bgcolor: 'background.paper'
+                            }}
+                        >
+                            <Table sx={{ minWidth: { xs: 300, sm: 650 } }}>
+                                <TableHead sx={{ bgcolor: 'rgba(139, 92, 246, 0.08)' }}>
+                                    <TableRow>
+                                        <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' }, color: 'primary.main' }}>Aspect</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' }, color: 'primary.main' }}>Description</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' }, color: 'primary.main' }}>Benefit for Users</TableCell>
+                                        <TableCell sx={{ fontWeight: 'bold', fontSize: { xs: '0.875rem', md: '1rem' }, color: 'primary.main' }}>SEO/AISEO Impact</TableCell>
                                     </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                                </TableHead>
+                                <TableBody>
+                                    {[
+                                        { aspect: 'Keyword Integration', desc: 'Natural use of terms like "free online image optimizer" in headings and text.', benefit: 'Easier discovery via search queries.', impact: 'Improves rankings; AI tools favor semantic relevance.' },
+                                        { aspect: 'Content Structure', desc: 'Headings (H2, H3), lists, and tables for readability.', benefit: 'Enhances user engagement.', impact: 'Boosts crawlability and scannability for search engines.' },
+                                        { aspect: 'Length and Depth', desc: '800+ words with detailed sections.', benefit: 'Provides comprehensive value.', impact: 'Signals authority to algorithms; ideal for 300-500+ word pages.' },
+                                        { aspect: 'Visuals and Media', desc: 'Recommendations for images/examples (e.g., compression demos).', benefit: 'Builds trust visually.', impact: 'Supports multimedia SEO; AI optimizers like quotes/data.' },
+                                        { aspect: 'Calls to Action', desc: 'Links to homepage, contact, and tools.', benefit: 'Drives conversions.', impact: 'Encourages internal linking for better site flow.' },
+                                        { aspect: 'Trust Signals', desc: 'Mission, values, privacy mentions.', benefit: 'Fosters credibility.', impact: 'Enhances E-A-T (Expertise, Authoritativeness, Trustworthiness).' },
+                                    ].map((row) => (
+                                        <TableRow
+                                            key={row.aspect}
+                                            sx={{
+                                                '&:nth-of-type(odd)': { bgcolor: 'rgba(0,0,0,0.02)' },
+                                                '&:hover': { bgcolor: 'rgba(139, 92, 246, 0.04)' },
+                                                transition: 'background-color 0.2s'
+                                            }}
+                                        >
+                                            <TableCell component="th" scope="row" sx={{ fontWeight: 'bold', fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.aspect}</TableCell>
+                                            <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.desc}</TableCell>
+                                            <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.benefit}</TableCell>
+                                            <TableCell sx={{ fontSize: { xs: '0.813rem', md: '0.875rem' } }}>{row.impact}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Box>
                 </Box>
             </Container>
             <Footer />
