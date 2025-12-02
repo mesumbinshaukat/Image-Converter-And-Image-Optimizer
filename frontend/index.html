@@ -172,9 +172,10 @@
     crossorigin="anonymous"></script>
 
   <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    if (window.adsbygoogle && !window.adsbygoogle.loaded) {
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    }
   </script>
-
 
   <!-- Preconnect for Performance -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
