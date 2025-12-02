@@ -22,7 +22,17 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
     (response) => response,
     (error) => {
-        console.error('API Error:', error.response?.data || error.message);
+        // Enhanced error logging with context
+        const errorDetails = {
+            message: error.message,
+            status: error.response?.status,
+            statusText: error.response?.statusText,
+            data: error.response?.data,
+            url: error.config?.url,
+        };
+
+        console.error('API Error:', errorDetails);
+
         if (error.response?.status === 401) {
             localStorage.removeItem('token')
             // Only redirect if not already on login page to avoid loops
@@ -30,6 +40,8 @@ api.interceptors.response.use(
                 // window.location.href = '/login' // Optional: force redirect
             }
         }
+
+        // Always return a rejected promise with the error
         return Promise.reject(error)
     }
 )

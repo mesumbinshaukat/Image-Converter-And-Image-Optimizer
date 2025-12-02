@@ -189,11 +189,43 @@
 
   <!-- Additional SEO -->
   <meta name="theme-color" content="#8B5CF6" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="format-detection" content="telephone=no" />
 
 
+  <!-- Global Error Handlers -->
+  <script>
+    // Handle unhandled promise rejections
+    window.addEventListener('unhandledrejection', function (event) {
+      console.warn('Unhandled promise rejection:', event.reason);
+      // Prevent default browser behavior (console error)
+      event.preventDefault();
+    });
+
+    // Handle uncaught errors
+    window.addEventListener('error', function (event) {
+      // Ignore extension-related errors
+      if (event.message && event.message.includes('chrome-extension://')) {
+        event.preventDefault();
+        return;
+      }
+      console.error('Uncaught error:', event.error || event.message);
+    });
+
+    // Suppress extension communication errors
+    const originalConsoleError = console.error;
+    console.error = function (...args) {
+      const message = args[0]?.toString() || '';
+      // Filter out known extension errors
+      if (message.includes('runtime.lastError') ||
+        message.includes('message channel closed') ||
+        message.includes('chrome-extension://')) {
+        return; // Suppress these errors
+      }
+      originalConsoleError.apply(console, args);
+    };
+  </script>
 </head>
 
 <body>
