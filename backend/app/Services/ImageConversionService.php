@@ -68,28 +68,8 @@ class ImageConversionService
             mkdir($directory, 0755, true);
         }
 
-        // Convert based on target format with error handling and fallback
-        try {
-            $encoded = $this->encodeImage($image, $targetFormat, $quality);
-        } catch (\Exception $e) {
-            // Try with reduced quality as fallback
-            \Log::warning("Image encoding failed at quality {$quality}, attempting fallback", [
-                'format' => $targetFormat,
-                'original_error' => $e->getMessage(),
-                'file' => $file->getClientOriginalName()
-            ]);
-            
-            if ($quality > 75) {
-                try {
-                    $encoded = $this->encodeImage($image, $targetFormat, 75);
-                    \Log::info("Successfully encoded image with reduced quality (75)");
-                } catch (\Exception $fallbackError) {
-                    throw new \Exception("Failed to convert image to {$targetFormat} format. This may be due to image complexity or size. Original error: " . $e->getMessage());
-                }
-            } else {
-                throw new \Exception("Failed to convert image to {$targetFormat} format. Error: " . $e->getMessage());
-            }
-        }
+        // Convert based on target format with error handling and progressive fallback
+        $encoded = $this->encodeImageWithFallback($image, $targetFormat, $quality, $file->getClientOriginalName());
 
         // Save the converted image
         try {
@@ -171,11 +151,22 @@ class ImageConversionService
         }
 
         // Calculate required memory (width * height * channels * bytes_per_channel * safety_multiplier)
-        // Typical calculation: width * height * 4 (RGBA) * 1.5 (safety buffer)
+        // For WebP and large images, we need more memory
         $width = $imageInfo[0];
         $height = $imageInfo[1];
         $channels = 4; // RGBA
-        $requiredMemory = $width * $height * $channels * 1.5;
+        
+        // Use higher multiplier for very large images (WebP encoding is memory intensive)
+        $pixelCount = $width * $height;
+        if ($pixelCount > 10000000) { // > 10 megapixels
+            $safetyMultiplier = 3.0; // Triple memory for very large images
+        } elseif ($pixelCount > 5000000) { // > 5 megapixels
+            $safetyMultiplier = 2.5;
+        } else {
+            $safetyMultiplier = 1.5;
+        }
+        
+        $requiredMemory = $width * $height * $channels * $safetyMultiplier;
 
         // Add current memory usage
         $currentMemory = memory_get_usage(true);
@@ -184,15 +175,16 @@ class ImageConversionService
         // Get current memory limit
         $memoryLimit = $this->getMemoryLimit();
 
-        // If required memory exceeds 80% of limit, try to increase it
-        if ($totalRequired > ($memoryLimit * 0.8)) {
-            $newLimit = (int)($totalRequired * 1.3); // 30% buffer
+        // If required memory exceeds 70% of limit, increase it (was 80%, now more aggressive)
+        if ($totalRequired > ($memoryLimit * 0.7)) {
+            $newLimit = (int)($totalRequired * 1.5); // 50% buffer (was 30%)
             $newLimitMB = ceil($newLimit / 1024 / 1024);
             
             \Log::info("Increasing memory limit for large image processing", [
                 'current_limit_mb' => round($memoryLimit / 1024 / 1024),
                 'new_limit_mb' => $newLimitMB,
-                'image_dimensions' => "{$width}x{$height}"
+                'image_dimensions' => "{$width}x{$height}",
+                'pixel_count' => $pixelCount
             ]);
 
             @ini_set('memory_limit', $newLimitMB . 'M');
@@ -239,6 +231,82 @@ class ImageConversionService
             'width' => $image->width(),
             'height' => $image->height(),
         ];
+    }
+
+    /**
+     * Encode image with progressive quality fallback
+     *
+     * @param mixed $image
+     * @param string $targetFormat
+     * @param int $quality
+     * @param string $filename
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function encodeImageWithFallback($image, string $targetFormat, int $quality, string $filename)
+    {
+        // Progressive quality levels to try
+        $qualityLevels = [$quality];
+        
+        // Add fallback quality levels if original quality is high
+        if ($quality > 75) {
+            $qualityLevels[] = 75;
+        }
+        if ($quality > 60) {
+            $qualityLevels[] = 60;
+        }
+        if ($quality > 50) {
+            $qualityLevels[] = 50;
+        }
+        if ($quality > 40) {
+            $qualityLevels[] = 40;
+        }
+        
+        $lastError = null;
+        
+        foreach ($qualityLevels as $index => $currentQuality) {
+            try {
+                if ($index > 0) {
+                    \Log::warning("Attempting encoding with reduced quality", [
+                        'format' => $targetFormat,
+                        'quality' => $currentQuality,
+                        'file' => $filename,
+                        'attempt' => $index + 1
+                    ]);
+                }
+                
+                $encoded = $this->encodeImage($image, $targetFormat, $currentQuality);
+                
+                if ($index > 0) {
+                    \Log::info("Successfully encoded image with reduced quality", [
+                        'format' => $targetFormat,
+                        'quality' => $currentQuality,
+                        'file' => $filename
+                    ]);
+                }
+                
+                return $encoded;
+                
+            } catch (\Exception $e) {
+                $lastError = $e;
+                
+                if ($index === count($qualityLevels) - 1) {
+                    // This was the last attempt
+                    \Log::error("All encoding attempts failed", [
+                        'format' => $targetFormat,
+                        'file' => $filename,
+                        'attempts' => count($qualityLevels),
+                        'final_error' => $e->getMessage()
+                    ]);
+                }
+                
+                // Continue to next quality level
+                continue;
+            }
+        }
+        
+        // If we get here, all attempts failed
+        throw new \Exception("Failed to convert image to {$targetFormat} format after trying multiple quality levels. The image may be too large or complex for processing. Last error: " . ($lastError ? $lastError->getMessage() : 'Unknown error'));
     }
 
     /**
