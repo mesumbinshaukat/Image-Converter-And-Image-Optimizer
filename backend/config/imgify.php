@@ -19,7 +19,7 @@ return [
     // File Management
     'file_retention_hours' => env('IMGIFY_FILE_RETENTION_HOURS', 24),
     'log_retention_hours' => env('IMGIFY_LOG_RETENTION_HOURS', 24),
-    'max_file_size' => env('IMGIFY_MAX_FILE_SIZE', 10240), // in KB
+    'max_file_size' => env('IMGIFY_MAX_FILE_SIZE', 100000), // in KB
 
     // Allowed Formats
     'allowed_formats' => explode(',', env('IMGIFY_ALLOWED_FORMATS', 'jpg,jpeg,png,webp,gif,bmp,svg')),

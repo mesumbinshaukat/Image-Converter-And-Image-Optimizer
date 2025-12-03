@@ -190,7 +190,7 @@ IMGIFY_LOG_RETENTION_HOURS=24
 ### Image Processing
 
 ```env
-IMGIFY_MAX_FILE_SIZE=10240  # in KB
+IMGIFY_MAX_FILE_SIZE=100000  # in KB
 IMGIFY_ALLOWED_FORMATS=jpg,jpeg,png,webp,gif,bmp,svg
 ```
 
