@@ -51,7 +51,7 @@ class ImageConversionService
 
         // Check image dimensions
         $dimensions = $this->getImageDimensions($image);
-        $maxDimensions = config('imgify.max_dimensions', 4096);
+        $maxDimensions = config('imgify.max_dimensions', 100000);
         
         if ($dimensions['width'] > $maxDimensions || $dimensions['height'] > $maxDimensions) {
             throw new \Exception("Image dimensions ({$dimensions['width']}x{$dimensions['height']}px) exceed maximum allowed dimensions ({$maxDimensions}x{$maxDimensions}px). Please resize the image before uploading.");

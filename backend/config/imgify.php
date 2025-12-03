@@ -26,5 +26,5 @@ return [
 
     // Image Processing
     'default_quality' => 85,
-    'max_dimensions' => 4096, // Maximum width or height in pixels
+    'max_dimensions' => 100000, // Maximum width or height in pixels
 ];
