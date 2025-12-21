@@ -9,7 +9,9 @@ const api = axios.create({
         'Accept': 'application/json',
     },
     withCredentials: true,
+    timeout: 300000, // 5 minutes timeout for image processing
 })
+
 
 api.interceptors.request.use((config) => {
     const token = localStorage.getItem('token')

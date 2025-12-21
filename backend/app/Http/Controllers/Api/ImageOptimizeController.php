@@ -34,7 +34,8 @@ class ImageOptimizeController extends Controller
     {
         $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.max_file_size'),
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp,heic,heif|max:' . config('imgify.max_file_size'),
+
             'quality' => 'nullable|integer|min:60|max:100',
         ]);
 

@@ -68,13 +68,17 @@ class ImageOptimizationService
             mkdir($directory, 0755, true);
         }
         
-        // Smart quality adjustment for very small files
-        // For files under 50KB, use higher quality to avoid quality loss
-        if ($originalSize < 51200 && $quality < 90) {
-            $quality = 90;
-        }
+        // Removed forced quality adjustment for small files to respect user choice
+
         
         // Encode based on format with error handling and progressive fallback
+        \Log::info("Starting optimization", [
+            'filename' => $file->getClientOriginalName(),
+            'format' => $originalFormat,
+            'requested_quality' => $quality,
+            'original_size' => $originalSize
+        ]);
+
         $encoded = $this->encodeImageWithFallback($image, $originalFormat, $quality, $file->getClientOriginalName());
         
         // Save the optimized image to temporary location first
@@ -86,6 +90,13 @@ class ImageOptimizationService
         
         $processedSize = filesize($fullPath);
         
+        \Log::info("Optimization complete", [
+            'filename' => $file->getClientOriginalName(),
+            'processed_size' => $processedSize,
+            'original_size' => $originalSize,
+            'delta' => $originalSize - $processedSize
+        ]);
+
         // CRITICAL: Never return a larger file than the original
         // If optimization increased size, use the original file instead
         if ($processedSize >= $originalSize) {
@@ -113,7 +124,9 @@ class ImageOptimizationService
             'compression_ratio' => $compressionRatio,
             'format' => $originalFormat,
             'used_original' => $usedOriginal,
+            'applied_quality' => $quality
         ];
+
     }
 
     /**
@@ -156,11 +169,15 @@ class ImageOptimizationService
             throw new \Exception("Invalid image file. The file may be corrupted or not a valid image format.");
         }
 
-        // Check if image type is supported
+        // Check if image type is supported (getimagesize doesn't always detect HEIC correctly)
+        // We'll rely more on the file extension and Intervention's read() for HEIC
         $supportedTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_BMP, IMAGETYPE_WEBP];
-        if (!in_array($imageInfo[2], $supportedTypes)) {
-            throw new \Exception("Unsupported image type. Please upload a JPEG, PNG, GIF, BMP, or WebP image.");
+        $extension = strtolower($file->getClientOriginalExtension());
+        
+        if (!in_array($imageInfo[2], $supportedTypes) && !in_array($extension, ['heic', 'heif'])) {
+            throw new \Exception("Unsupported image type. Please upload a JPEG, PNG, GIF, BMP, WebP, or HEIC image.");
         }
+
     }
 
     /**
@@ -352,15 +369,53 @@ class ImageOptimizationService
                 case 'jpeg':
                     return $image->toJpeg($quality);
                 case 'png':
-                    // PNG uses compression level 0-9, convert quality to compression
-                    // Higher quality = lower compression number (0 = no compression, 9 = max compression)
-                    $compression = max(0, min(9, (int) ((100 - $quality) / 11)));
-                    return $image->toPng(compression: $compression);
+                    // PNG is lossless, so "quality" doesn't strictly apply to the encoder.
+                    // To achieve optimization based on quality, we reduce the color palette.
+                    if ($quality < 100) {
+                        // Map quality 60-99 to color limits 32-256
+                        // 100 = No reduction
+                        // 90 = 256 colors
+                        // 80 = 128 colors
+                        // 70 = 64 colors
+                        // 60 = 32 colors
+                        $colorLimit = 256;
+                        if ($quality <= 60) $colorLimit = 32;
+                        elseif ($quality <= 70) $colorLimit = 64;
+                        elseif ($quality <= 80) $colorLimit = 128;
+                        elseif ($quality <= 90) $colorLimit = 256;
+                        
+                        $image->reduceColors($colorLimit);
+                    }
+                    return $image->toPng();
                 case 'webp':
                     return $image->toWebp($quality);
                 case 'gif':
+                    // Similar to PNG, GIF is indexed.
+                    if ($quality < 100) {
+                        $colorLimit = 256;
+                        if ($quality <= 60) $colorLimit = 32;
+                        elseif ($quality <= 70) $colorLimit = 64;
+                        elseif ($quality <= 80) $colorLimit = 128;
+                        
+                        $image->reduceColors($colorLimit);
+                    }
                     return $image->toGif();
+                case 'bmp':
+                    return $image->toBitmap();
+                case 'heic':
+                case 'heif':
+                    // Many browsers don't support HEIC natively, so if optimizing for web,
+                    // we might want to convert to WebP or JPEG. 
+                    // But if user specifically wants to keep HEIC format:
+                    try {
+                        return $image->toHeic($quality);
+                    } catch (\Exception $e) {
+                        // If direct HEIC encoding fails, fallback to something else? 
+                        // For now, let's just try toHeic.
+                        throw $e;
+                    }
                 default:
+
                     return $image->toJpeg($quality);
             }
         } catch (\Exception $e) {
@@ -372,3 +427,4 @@ class ImageOptimizationService
         }
     }
 }
+

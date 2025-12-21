@@ -48,9 +48,25 @@ export default function DragDropUploader({
 
             if (disabled) return;
 
-            const files = Array.from(e.dataTransfer.files).filter((file) =>
-                file.type.startsWith('image/')
-            );
+            const maxFileSizeMB = Number(import.meta.env.VITE_MAX_FILE_SIZE_MB) || 100;
+            const maxSizeBytes = maxFileSizeMB * 1024 * 1024;
+
+            const files = Array.from(e.dataTransfer.files).filter((file) => {
+                const isImage = file.type.startsWith('image/') ||
+                    file.name.toLowerCase().endsWith('.heic') ||
+                    file.name.toLowerCase().endsWith('.heif');
+
+                if (!isImage) return false;
+
+
+                if (file.size > maxSizeBytes) {
+                    alert(`File ${file.name} is too large. Maximum allowed size is ${maxFileSizeMB}MB.`);
+                    return false;
+                }
+                return true;
+            });
+
+            if (files.length === 0) return;
 
             if (files.length > maxFiles) {
                 alert(`Maximum ${maxFiles} files allowed`);
@@ -66,7 +82,21 @@ export default function DragDropUploader({
     const handleFileInput = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files) {
-                const files = Array.from(e.target.files);
+                const maxFileSizeMB = Number(import.meta.env.VITE_MAX_FILE_SIZE_MB) || 100;
+                const maxSizeBytes = maxFileSizeMB * 1024 * 1024;
+
+                const files = Array.from(e.target.files).filter(file => {
+                    if (file.size > maxSizeBytes) {
+                        alert(`File ${file.name} is too large. Maximum allowed size is ${maxFileSizeMB}MB.`);
+                        return false;
+                    }
+                    return true;
+                });
+
+                if (files.length === 0) {
+                    e.target.value = ''; // Reset input
+                    return;
+                }
 
                 if (files.length > maxFiles) {
                     alert(`Maximum ${maxFiles} files allowed`);
@@ -79,6 +109,7 @@ export default function DragDropUploader({
         },
         [maxFiles, onFilesSelected]
     );
+
 
     const removeFile = (index: number) => {
         const newFiles = selectedFiles.filter((_, i) => i !== index);
@@ -134,7 +165,8 @@ export default function DragDropUploader({
                         or click to browse
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                        Maximum {maxFiles} files • Supported: JPG, PNG, WebP, GIF, BMP
+                        Maximum {maxFiles} files • Supported: JPG, PNG, WebP, GIF, BMP, HEIC
+
                     </Typography>
                 </label>
             </Paper>

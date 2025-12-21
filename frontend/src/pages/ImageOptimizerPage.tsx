@@ -67,16 +67,18 @@ function ImageOptimizerPage() {
                             for faster website loading, better SEO rankings, and improved user experience. Perfect for bloggers, web developers, and e-commerce stores.
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 3, fontStyle: 'italic' }}>
-                            Supported formats: JPG, JPEG, PNG, WebP, GIF, BMP • Batch processing • No watermarks • Free forever
+                            Supported formats: JPG, JPEG, PNG, WebP, GIF, BMP, HEIC, HEIF • Batch processing • No watermarks • Free forever
                         </Typography>
+
                     </Box>
 
                     <Paper sx={{ p: 4 }}>
                         <DragDropUploader
                             onFilesSelected={handleFilesSelected}
-                            maxFiles={50}
+                            maxFiles={Number(import.meta.env.VITE_MAX_FILES) || 50}
                             disabled={loading}
                         />
+
 
                         {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
 

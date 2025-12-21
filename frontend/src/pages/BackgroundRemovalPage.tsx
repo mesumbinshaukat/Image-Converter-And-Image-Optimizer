@@ -100,9 +100,10 @@ function BackgroundRemovalPage() {
                     <Paper sx={{ p: 4, mb: 4 }}>
                         <DragDropUploader
                             onFilesSelected={handleFilesSelected}
-                            maxFiles={10}
+                            maxFiles={Number(import.meta.env.VITE_MAX_FILES) || 50}
                             disabled={isProcessing}
                         />
+
 
                         {images.length > 0 && (
                             <Stack direction="row" spacing={2} sx={{ mt: 3 }}>

@@ -25,6 +25,7 @@ return [
     'allowed_formats' => explode(',', env('IMGIFY_ALLOWED_FORMATS', 'jpg,jpeg,png,webp,gif,bmp,svg')),
 
     // Image Processing
-    'default_quality' => 85,
-    'max_dimensions' => 100000, // Maximum width or height in pixels
+    'default_quality' => env('IMGIFY_DEFAULT_QUALITY', 85),
+    'max_dimensions' => env('IMGIFY_MAX_DIMENSIONS', 100000), // Maximum width or height in pixels
 ];
+

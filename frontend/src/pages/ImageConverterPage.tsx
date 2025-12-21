@@ -62,23 +62,26 @@ function ImageConverterPage() {
                 <Container maxWidth="lg" sx={{ py: 4 }}>
                     <Box sx={{ textAlign: 'center', mb: 4 }}>
                         <Typography variant="h1" sx={{ fontSize: { xs: '2rem', md: '2.5rem' } }} gutterBottom fontWeight="bold">
-                            Free Image Converter - PNG to JPG, WebP, AVIF Online
+                            Free Image Converter - PNG to JPG, WebP, HEIC Online
                         </Typography>
+
                         <Typography variant="body1" color="text.secondary" sx={{ mb: 2, maxWidth: 800, mx: 'auto', lineHeight: 1.7 }}>
                             Convert images between formats instantly. Transform PNG to JPG for smaller files, JPG to WebP for modern web optimization,
                             or convert to AVIF for next-gen compression. Support for JPG, PNG, WebP, GIF, BMP, and more. Fast, free, and secure.
                         </Typography>
                         <Typography variant="body2" color="text.secondary" sx={{ mb: 3, fontStyle: 'italic' }}>
-                            Popular conversions: PNG to JPG • JPG to PNG • PNG to WebP • JPG to WebP • GIF to PNG • BMP to JPG
+                            Popular conversions: PNG to JPG • JPG to PNG • PNG to WebP • JPG to WebP • HEIC to JPG • HEIC to PNG
                         </Typography>
+
                     </Box>
 
                     <Paper sx={{ p: 4 }}>
                         <DragDropUploader
                             onFilesSelected={handleFilesSelected}
-                            maxFiles={50}
+                            maxFiles={Number(import.meta.env.VITE_MAX_FILES) || 50}
                             disabled={loading}
                         />
+
 
                         <FormControl fullWidth sx={{ mt: 3 }}>
                             <InputLabel>Convert To</InputLabel>
@@ -93,6 +96,9 @@ function ImageConverterPage() {
                                 <MenuItem value="webp">WebP</MenuItem>
                                 <MenuItem value="gif">GIF</MenuItem>
                                 <MenuItem value="bmp">BMP</MenuItem>
+                                <MenuItem value="heic">HEIC</MenuItem>
+                                <MenuItem value="heif">HEIF</MenuItem>
+
                             </Select>
                         </FormControl>
 

@@ -132,9 +132,12 @@ class ImageConversionService
 
         // Check if image type is supported
         $supportedTypes = [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_BMP, IMAGETYPE_WEBP];
-        if (!in_array($imageInfo[2], $supportedTypes)) {
-            throw new \Exception("Unsupported image type. Please upload a JPEG, PNG, GIF, BMP, or WebP image.");
+        $extension = strtolower($file->getClientOriginalExtension());
+        
+        if (!in_array($imageInfo[2], $supportedTypes) && !in_array($extension, ['heic', 'heif'])) {
+            throw new \Exception("Unsupported image type. Please upload a JPEG, PNG, GIF, BMP, WebP, or HEIC image.");
         }
+
     }
 
     /**
@@ -333,7 +336,11 @@ class ImageConversionService
                     return $image->toGif();
                 case 'bmp':
                     return $image->toBitmap();
+                case 'heic':
+                case 'heif':
+                    return $image->toHeic($quality);
                 default:
+
                     throw new \Exception("Unsupported target format: {$targetFormat}");
             }
         } catch (\Exception $e) {
@@ -352,6 +359,7 @@ class ImageConversionService
      */
     public function getSupportedFormats(): array
     {
-        return ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp'];
+        return ['jpg', 'jpeg', 'png', 'webp', 'gif', 'bmp', 'heic', 'heif'];
     }
+
 }

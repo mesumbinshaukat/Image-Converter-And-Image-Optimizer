@@ -33,8 +33,9 @@ class ImageConvertController extends Controller
     {
         $request->validate([
             'images' => 'required|array|min:1',
-            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp|max:' . config('imgify.max_file_size'),
-            'format' => 'required|in:jpg,jpeg,png,webp,gif,bmp',
+            'images.*' => 'required|image|mimes:jpg,jpeg,png,webp,gif,bmp,heic,heif|max:' . config('imgify.max_file_size'),
+            'format' => 'required|in:jpg,jpeg,png,webp,gif,bmp,heic,heif',
+
             'quality' => 'nullable|integer|min:1|max:100',
         ]);
 

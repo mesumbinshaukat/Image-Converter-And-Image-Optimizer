@@ -22,6 +22,6 @@ class ImageDownloadController extends Controller
         if (!file_exists($path)) {
             abort(404, 'File not found');
         }
-        return response()->download($path);
+        return response()->download($path, $image->original_filename);
     }
 }
